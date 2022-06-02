@@ -1,0 +1,19 @@
+body {
+    background-color: #F5FBFF !important;
+}
+
+.custom-nav {
+    background-color: #1F1F1F !important;
+}
+
+footer {
+    background-color: #1F1F1F !important;
+}
+
+.custom-cart {
+    background-color: #FFF !important;
+}
+
+.custom-cart:hover {
+    box-shadow: 0px 17px 14px -7px rgba(0,0,0,0.1);
+}

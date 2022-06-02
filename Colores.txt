@@ -1,0 +1,5 @@
+celeste primario: #0094F0
+celeste oscuro: #0166AB
+negro background: #000818
+blanco: #F2F2F2
+gris medio: #6E6E6E

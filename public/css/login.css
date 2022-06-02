@@ -1,0 +1,15 @@
+html {
+height: 100%;
+}
+
+body {
+min-height: 100%;
+}
+
+.gradient-custom-2 {
+
+background: linear-gradient(238.72deg, #0166AB 0%, #0094F0 100%), radial-gradient(100% 224.43% at 0% 0%, #FCC482 0%, #002E74 100%), linear-gradient(121.28deg, #FFEAB6 0%, #00563C 100%), linear-gradient(229.79deg, #7534FF 0%, #248900 94.19%), radial-gradient(56.26% 101.79% at 50% 0%, #8F00FF 0%, #493500 100%), linear-gradient(65.05deg, #6F0072 0%, #FFD600 100%);
+background-blend-mode: overlay, screen, color-burn, hard-light, screen, normal;
+
+}
+
