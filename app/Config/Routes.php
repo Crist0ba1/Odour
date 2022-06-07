@@ -48,6 +48,9 @@ $routes->POST('/registrarDatos/(:any)/(:any)/(:any)', 'Home::registrarDatos/$1/$
 $routes->get('/inputs', 'Home::inputs');
 $routes->get('/reset', 'Home::reset');
 
+/* Carga de sensores de tablero */
+$routes->post('/Tablero/Ver', 'TableroController::getTablerosHTML');
+
 /* Gestion de usuarios*/
 $routes->get('/gestionUsuarios', 'UsuarioController::gestionUsuarios');//Por si se quiere cargar por ceparado
 $routes->post('/Usuario_fetch_all', 'UsuarioController::Usuario_fetch_all');
