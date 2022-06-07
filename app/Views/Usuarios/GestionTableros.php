@@ -200,8 +200,12 @@
                                 type: "GET",
                                 url: "<?php echo base_url('/usuariosTableros')?>/"+id,
                                 success: function(data) {
-                                    alert(data);
-                                    /*FALTA RECORRER LOS ID DE DATA Y SELECCIONARLOS EN EL SELEC "usuariosSelect"*/
+                                    var usuarios = new Array();
+                                    JSON.parse(data).forEach(element => {
+                                        usuarios.push(element['refUsuario']);
+                                    });
+                                    $('select[name=usuariosSelect]').val(usuarios);
+                                    $('.selectpicker').selectpicker('refresh');
                                 },
                                 error : function(xhr, status) {
                                     alert('Existió un problema, buscando los usuarios de este tablero');

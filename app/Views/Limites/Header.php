@@ -6,6 +6,8 @@
 
 	<meta name="description" content="TTC.">
 
+  <link rel="icon" href="<?php echo base_url('/assets/img/logo.png')?>">
+
   <link rel="shortcut icon" type="image/x-icon" href="<?php echo base_url('/assets/img/favicon.png')?>" >
 
   <!-- bootstrap css -->
@@ -47,10 +49,12 @@
 <?php if(session()->get('isLoggedIn') && session()->get('tipo') == 0): ?> 
   <div class="collapse navbar-collapse" id="navbarSupportedContent">
     <ul class="navbar-nav ml-auto">
-      <li class="nav-item active mr-3">
-        <a class="nav-link" href="<?php echo base_url('inicio')?>">Dashboard<span class="sr-only"></span></a>
+
+      <li class="nav-item <?php if(isset($menu)){if($menu=="inicio"){echo "active";}} ?> mr-3">
+        <a class="nav-link" href="<?php echo base_url('inicio')?>">Inicio<span class="sr-only"></span></a>
       </li>
-      <li class="nav-item active mr-3">
+
+      <li class="nav-item <?php if(isset($menu)){if($menu=="dashboard"){echo "active";}} ?> mr-3">
         <a class="nav-link" href="<?php echo base_url('dashbord')?>">Gestion<span class="sr-only"></span></a>
       </li>
       <li class="nav-item dropdown mr-3">

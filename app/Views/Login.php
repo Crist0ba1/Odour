@@ -3,7 +3,7 @@
 
 <head>
     <meta charset="UTF-8">
-    <title>SD oliendo el peligro</title>
+    <title>Odour Solutions</title>
     
     <link rel="shortcut icon" type="image/x-icon" href="<?php echo base_url('/assets/img/favicon.png')?>" >
 
@@ -62,7 +62,7 @@
 
                     <div class="text-center">
                         <img alt="Logo" class="img-fluid img-center" src="<?php echo base_url('/assets/img/') ?>/logo.png">
-                        <h1 class="h4 text-gray-900 mb-4 mt-2">Monitoreo de Gas en tiempo real</h1>
+                        <h1 class="h4 text-gray-900 mb-4 mt-2">Monitoreo de sensores en tiempo real</h1>
                     </div>
                     <form id="loginForm" action="<?php echo base_url('/iniciarSession') ?>" class="user" method="post">
 
