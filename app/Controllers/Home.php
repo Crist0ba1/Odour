@@ -6,6 +6,9 @@ use App\Models\UsuariosModel;
 use App\Models\TablaModel;
 use App\Models\TableroModel;
 use App\Models\InputModel;
+use App\Models\UsuarioTableroModel;
+use App\Models\TableroSensorModel;
+use App\Models\SensoresModel;
 
 class Home extends BaseController
 {
@@ -123,17 +126,69 @@ class Home extends BaseController
 
     }
     public function inicio(){
-        $db = new TablaModel();
-        $db = $db->findAll();
-        $products = [];
-        foreach($db as $row) {
-            $products[] = array(
-                'fecha'   => $row['fecha'],
-                'valor' => $row['valor']
-            );
-        }
+        // $db = new TablaModel();
+        // $db = $db->findAll();
+        // $products = [];
+        // foreach($db as $row) {
+        //     $products[] = array(
+        //         'fecha'   => $row['fecha'],
+        //         'valor' => $row['valor']
+        //     );
+        // }
+        // $data['products'] = ($products);
         
-        $data['products'] = ($products);    
+        if( session()->get('isLoggedIn') ){
+
+            $idUsuario = session()->get('id');
+
+            // Se obtiene la referencia los tableros de un usuario
+            $tableroUsuarioModel = new UsuarioTableroModel();
+            $tablerosUsuario = $tableroUsuarioModel->select('refTablero')->where('refUsuario', $idUsuario)->findAll();
+
+            if (!empty($tablerosUsuario)){
+                // Se limpia la respuesta en $tablerosUsuariosLimpiado[] para la clausula ->whereIn() del modelo TableroModel
+                $tablerosUsuariosLimpiado = [];
+                foreach ($tablerosUsuario as $tablero){
+                    $tablerosUsuariosLimpiado[] = $tablero['refTablero'];
+                }
+
+                // Se obtiene los datos de los tableros de un usuario
+                $tableroModel = new TableroModel();
+                $tableros = $tableroModel->whereIn('idTablero', $tablerosUsuariosLimpiado)->findAll();
+                
+                $data['tableros'] = $tableros;
+
+                $tableroSensor = new TableroSensorModel();
+                $idSensoresPrimerTablero = $tableroSensor->where('refTablero', $tableros[0]['idTablero'])->findAll();
+
+                if (!empty($idSensoresPrimerTablero)){
+                
+                    // Se limpia la respuesta en $idSensoresPrimerTablero[] para la clausula ->whereIn() del modelo SensoresModel
+                    $sensoresTableroLimpiado = [];
+                    foreach ($idSensoresPrimerTablero as $sensor){
+                        $sensoresTableroLimpiado[] = $sensor['refSensor'];
+                    }
+
+                    $sensorModel = new SensoresModel();
+                    $sensores = $sensorModel->whereIn('idSensor', $sensoresTableroLimpiado)->findAll();
+
+                    $data['sensores'] = $sensores;
+
+                } else {
+                    $data['sensores'] = array();
+                }
+
+            } else {
+                $data['tableros'] = array();
+            }           
+            
+            // echo view('Limites/Header');
+            // echo view('Usuarios/Graficos',$data);
+            // echo view('Limites/Fother');
+
+        } else {
+            return redirect()->to('/');
+        }
         
 		echo view('Limites/Header',$data);
 		echo view('Usuarios/Graficos');

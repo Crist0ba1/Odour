@@ -7,7 +7,8 @@
 		color: #ffffff;
 	}
 </style>
-<footer class="footer">
+
+<footer class="footer mt-auto">
       <div class="footer_top">
                 <div class="container">
                     <div class="row">
@@ -50,11 +51,11 @@
                                         Productos
                                 </h3>
                                 <ul>
-                                    <li><a href="biofiltros.html" target="_self">Biofiltros</a></li>
-                                    <li><a href="biotrickling.html" target="_self">Biotrickling</a></li>
-                                    <li><a href="carbonactivado.html" target="_self">Carbón Activado</a></li>
-                                    <li><a href="scrubber.html" target="_self">Scrubber</a></li>
-                                    <li><a href="servicios.html" target="_self">Servicios</a></li>
+                                    <li><a href="https://www.odoursolution.com/biofiltros.html" target="_self">Biofiltros</a></li>
+                                    <li><a href="https://www.odoursolution.com/biotrickling.html" target="_self">Biotrickling</a></li>
+                                    <li><a href="https://www.odoursolution.com/carbonactivado.html" target="_self">Carbón Activado</a></li>
+                                    <li><a href="https://www.odoursolution.com/scrubber.html" target="_self">Scrubber</a></li>
+                                    <li><a href="https://www.odoursolution.com/servicios.html" target="_self">Servicios</a></li>
                                 </ul>
     
                             </div>
@@ -65,11 +66,11 @@
                                         Mapa Sitio
                                 </h3>
                                 <ul>
-                                    <li><a href="index.html" target="_self">Inicio</a></li>
-                                    <li><a href="empresa.html" target="_self">Empresa</a></li>
-                                    <li><a href="productos.html" target="_self">Productos</a></li>
-                                    <li><a href="noticias.html" target="_self">Noticias</a></li>
-                                    <li><a href="profesionales.html" target="_self">Profesionales</a></li>
+                                    <li><a href="http://localhost/Outdoor/public/" target="_self">Inicio</a></li>
+                                    <li><a href="https://www.odoursolution.com/empresa.html" target="_self">Empresa</a></li>
+                                    <li><a href="https://www.odoursolution.com/productos.html" target="_self">Productos</a></li>
+                                    <li><a href="https://www.odoursolution.com/noticias.html" target="_self">Noticias</a></li>
+                                    <li><a href="https://www.odoursolution.com/profesionales.html" target="_self">Profesionales</a></li>
                                 </ul>
                             </div>
                         </div>

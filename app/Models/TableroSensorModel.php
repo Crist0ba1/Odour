@@ -8,6 +8,6 @@ class TableroSensorModel extends Model{
     protected $table      = 'tableroSensor';
     protected $primaryKey = 'idTS';
 
-    protected $allowedFields = ['idTS','refTablero', 'refSensor'];
+    protected $allowedFields = ['idTS','refTablero','refSensor'];
 
 }
