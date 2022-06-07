@@ -76,6 +76,8 @@ $routes->post('/addSensor', 'SensoresController::addSensor');
 $routes->post('/deleteSensor', 'SensoresController::deleteSensor');
 $routes->post('/editSensor', 'SensoresController::editSensor');
 $routes->get('/tablaSensores', 'SensoresController::tablaSensores');
+$routes->get('/tablerosSensores/(:any)', 'SensoresController::tablerosSensores/$1');
+
 /*
  * --------------------------------------------------------------------
  * Additional Routing

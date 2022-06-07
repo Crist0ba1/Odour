@@ -55,7 +55,7 @@
       </li>
 
       <li class="nav-item <?php if(isset($menu)){if($menu=="dashboard"){echo "active";}} ?> mr-3">
-        <a class="nav-link" href="<?php echo base_url('dashbord')?>">Gestion<span class="sr-only"></span></a>
+        <a class="nav-link" href="<?php echo base_url('dashbord')?>">Gestión<span class="sr-only"></span></a>
       </li>
       <li class="nav-item dropdown mr-3">
         <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">

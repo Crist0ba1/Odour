@@ -190,13 +190,15 @@ class Home extends BaseController
         $modelR = new RegionesModel();
 		$modelCo = new ComunasModel();
         $modelU = new UsuariosModel();
+        $tableroModel = new TableroModel();
         $data['region'] = $modelR->findAll();
 		$data['comuna'] = $modelCo->findAll();
         $data['usuarios'] = $modelU->select('idUsuario, Nombre, Correo')->findAll();
+        $data['tableros'] = $tableroModel->select('idTablero, nombreTablero')->findAll();
         echo view('Limites/Header',$data);
 		echo view('Usuarios/GestionUsuarios');
         echo view('Usuarios/GestionTableros',$data);
-        echo view('Usuarios/GestionSensores');
+        echo view('Usuarios/GestionSensores',$data);
 		echo view('Limites/Fother');
     }
     public function initChart() {

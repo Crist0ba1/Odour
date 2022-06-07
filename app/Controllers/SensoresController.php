@@ -4,6 +4,7 @@ namespace App\Controllers;
 
 use App\Models\TableroModel;
 use App\Models\SensoresModel;
+use App\Models\TableroSensorModel;
 
 use monken\TablesIgniter;
 class SensoresController extends BaseController
@@ -104,4 +105,10 @@ class SensoresController extends BaseController
     public function tablaSensores(){
         echo view('Tablas/TablaSensores');
     }    
+
+    public function tablerosSensores($idSensor){
+        $tableroSensor = new TableroSensorModel();
+        $tableros = $tableroSensor->where('refTablero',$idSensor)->select('refTablero')->findAll();
+        return json_encode($tableros);
+    }
 }

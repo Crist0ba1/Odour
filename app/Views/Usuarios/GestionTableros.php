@@ -1,5 +1,3 @@
-
-
 <div class="row justify-content-center">
     <div class="col-10 ">
         <div class="card">
@@ -62,7 +60,7 @@
 					</select>
                 </div>
                 <div class="form-group">
-                    <label>Ubicacion:</label>
+                    <label>Ubicación:</label>
                     <input type="text" class="form-control" name="ubicacionTablero" id="ubicacionTablero" required placeholder="Ejemplo: Rio aconcagua #1455">
                     <span id="ubicacion_Tableros_error" class="text-danger">
                 </div>
@@ -72,7 +70,7 @@
                     <span id="sector_Tableros_error" class="text-danger">
                 </div>
                 <div class="form-group select">
-                    <label>Cada tablero debe tener asignado por lo:</label>
+                    <label>Usuario(s):</label><br>
 					<select required name="usuariosSelect" id="usuariosSelect" class="selectpicker" title="usuarios(s)" 
 						 multiple data-live-search="true">
 						<option disabled >- Usuario(s)-</option>
