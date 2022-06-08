@@ -93,6 +93,25 @@
     </div>
 </form>
 
+<div id="verSensores" class="modal" tabindex="-1" role="dialog">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">Sensores asignados al tablero</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <p>Mostrar los sensores asociados y quizas permitir la gestion igual???.</p>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-primary">Save changes</button>
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+      </div>
+    </div>
+  </div>
+</div>
 <script>
     $("#region").change(function() {
        		$("#region option:selected").each(function() {
@@ -121,7 +140,11 @@
     });    
 </script>
 <script type="text/javascript">          
-           $(document).ready(function() {    
+           $(document).ready(function() {   
+               
+                $(document).on('click', '.verTableros',function(){
+                    $('#verSensores').modal("show");  
+                });
                 //Añadimos la imagen de carga en el contenedor
                 $('#tablaTablero').html('<div class="d-flex justify-content-center"><img src="https://c.tenor.com/28DFFVtvNqYAAAAC/loading.gif" width="125" /><br/>Cargado tablas...</div>');
                 

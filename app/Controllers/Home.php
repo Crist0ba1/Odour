@@ -234,16 +234,16 @@ class Home extends BaseController
         return json_encode($products);           
     }
     public function registrarDatos($initCadena,$idDispositivo, $val_analog){
-        $aux = $this->initCadena();
-        if( intval($aux) != intval($initCadena)){
-            return false;
-        }else{
+        //$aux = $this->initCadena();
+        //if( intval($initCadena) != intval($initCadena)){
+        //    return false;
+        //}else{
         $db = new TablaModel();
         $data['idDispositivo'] =$idDispositivo;
         $data['valor'] = $val_analog;
         $db->insert($data);
         return true;
-        }
+        //}
     }
     public function inputs(){
         $db = new TablaModel();

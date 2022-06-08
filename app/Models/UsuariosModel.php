@@ -33,9 +33,11 @@ class UsuariosModel extends Model{
     }
     public function buttons(){
         $acction_button = function($row){
-            return '<button type="button" name="editUsuario" class="btn btn-warning btn-sm editUsuario"
+            return '<button title="Ver tableros" type="button" name="verTableros" class="btn btn-success btn-sm verTableros"
+                    data-id="'.$row['idUsuario'].'"><i class="fa fa-table"></i></button>
+                    <button title="Editar usuario" type="button" name="editUsuario" class="btn btn-warning btn-sm editUsuario"
                      data-id="'.$row['idUsuario'].'"><i class="fas fa-edit"></i></button>
-                     <button type="button" name="deleteUsuario" class="btn btn-danger btn-sm deleteUsuario"
+                     <button title="Eliminar usuario" type="button" name="deleteUsuario" class="btn btn-danger btn-sm deleteUsuario"
                      data-id="'.$row['idUsuario'].'"><i class="fas fa-times-circle"></i></button>';
         };
         return $acction_button;
