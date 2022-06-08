@@ -82,18 +82,18 @@ class Home extends BaseController
             
     }
     public function index(){
-        $modelC = new ComiteModel();
-        $data['numComites'] = $modelC->countAllResults();
-        $modelP = new PersonasModel();
-        $data['numPersonas'] = $modelP->countAllResults();
-        if( session()->get('isLoggedIn')){
-            $data['nombre'] = session()->get('nombre');
-        }else{
-            $data['nombre'] = "No cargo el nombre ql";
-        }
-        echo view('Header',$data);    
-        //echo view('Inicio/TablasInicio');
-		echo view('footer');
+        // $modelC = new ComiteModel();
+        // $data['numComites'] = $modelC->countAllResults();
+        // $modelP = new PersonasModel();
+        // $data['numPersonas'] = $modelP->countAllResults();
+        // if( session()->get('isLoggedIn')){
+        //     $data['nombre'] = session()->get('nombre');
+        // }else{
+        //     $data['nombre'] = "No cargo el nombre ql";
+        // }
+        // echo view('Header',$data);    
+        // //echo view('Inicio/TablasInicio');
+		// echo view('footer');
         
     }
     private function setUserSession($user){
@@ -126,16 +126,9 @@ class Home extends BaseController
 
     }
     public function inicio(){
-        // $db = new TablaModel();
-        // $db = $db->findAll();
-        // $products = [];
-        // foreach($db as $row) {
-        //     $products[] = array(
-        //         'fecha'   => $row['fecha'],
-        //         'valor' => $row['valor']
-        //     );
-        // }
-        // $data['products'] = ($products);
+
+        $menu = 'inicio';
+        $data['menu'] = $menu;
         
         if( session()->get('isLoggedIn') ){
 
@@ -182,29 +175,30 @@ class Home extends BaseController
                 $data['tableros'] = array();
             }           
             
-            // echo view('Limites/Header');
-            // echo view('Usuarios/Graficos',$data);
-            // echo view('Limites/Fother');
+            echo view('Limites/Header',$data);
+            echo view('Usuarios/Graficos',$data);
+            echo view('Limites/Fother');
 
         } else {
             return redirect()->to('/');
         }
-        
-		echo view('Limites/Header',$data);
-		echo view('Usuarios/Graficos');
-		echo view('Limites/Fother');
+
     }
     public function dashbord(){
+        $menu = 'dashboard';
+        $data['menu'] = $menu;
         $modelR = new RegionesModel();
 		$modelCo = new ComunasModel();
         $modelU = new UsuariosModel();
+        $tableroModel = new TableroModel();
         $data['region'] = $modelR->findAll();
 		$data['comuna'] = $modelCo->findAll();
         $data['usuarios'] = $modelU->select('idUsuario, Nombre, Correo')->findAll();
-        echo view('Limites/Header');
+        $data['tableros'] = $tableroModel->select('idTablero, nombreTablero')->findAll();
+        echo view('Limites/Header',$data);
 		echo view('Usuarios/GestionUsuarios');
         echo view('Usuarios/GestionTableros',$data);
-        echo view('Usuarios/GestionSensores');
+        echo view('Usuarios/GestionSensores',$data);
 		echo view('Limites/Fother');
     }
     public function initChart() {

@@ -39,7 +39,7 @@
             </div>
             <div class="modal-body">
                 <div class="form-group">
-                    <label>Sensor:</label>
+                    <label>Nombre de Sensor:</label>
                     <input type="text" class="form-control" name="nombreSensor" id="nombreSensor" required placeholder="Ejemplo: Sensor de temperatura, Dht11">
                     <span id="nombre_sensor_error" class="text-danger">
                 </div>   
@@ -48,6 +48,17 @@
                     <input type="text" class="form-control" name="tipoSensor" id="tipoSensor" required placeholder="Ejemplo: Temp grados C°">
                     <span id="tipo_sensor_error" class="text-danger">
                 </div>
+                <div class="form-group select">
+                    <label>Tablero(s):</label><br>
+					<select required name="tablerosSelect" id="tablerosSelect" class="selectpicker" title="tablero(s)" 
+						 multiple data-live-search="true">
+						<option disabled >- Tablero(s)-</option>
+						<?php foreach($tableros as $rowC):?>
+							<option  value="<?= $rowC['idTablero'];?>"><?= $rowC['idTablero'];?>. <?= $rowC['nombreTablero'];?></option>
+						<?php endforeach;?>
+						<input type="hidden" class="form-control form-control-user" id="listTablero" name="listTablero">
+					</select>										
+				</div>
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
@@ -76,6 +87,7 @@
                 });
                 
                 $('#AddSensoresModal').on('submit',function(event){
+                    console.log($(this).serialize())
                     event.preventDefault();
                     $.ajax ({
                         type: "POST",
@@ -125,6 +137,23 @@
                             $('#tipo_sensor_error').text('');
                             $('#actionS').val('edit');
                             $('#submit_buttonS').val('Editar')
+
+                            $.ajax({
+                                type: "GET",
+                                url: "<?php echo base_url('/tablerosSensores')?>/"+id,
+                                success: function(data) {
+                                    var usuarios = new Array();
+                                    JSON.parse(data).forEach(element => {
+                                        usuarios.push(element['refTablero']);
+                                    });
+                                    $('select[name=tablerosSelect]').val(usuarios);
+                                    $('.selectpicker').selectpicker('refresh');
+                                },
+                                error : function(xhr, status) {
+                                    alert('Existió un problema, buscando los usuarios de este tablero');
+                                }
+                            });
+
                             $('#addSensores').modal("show");                            
                         },
                         error:function(){
@@ -171,9 +200,18 @@
                         alert('Disculpe, existió un problema');
                     }
                 });
+
+                $('#tablerosSelect').on('change', function(){
+                    var selected = $(this).find("option:selected");
+                    var arrSelected = [];
+                    var  cat = "";
+                    selected.each(function(){
+                        arrSelected.push($(this).val());
+                        cat+= $(this).val() +" ";
+                    });
+                    $('#listTablero').val(cat);
+                });
                 
         });    
    
 </script>
-
-

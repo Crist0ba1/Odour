@@ -40,7 +40,7 @@
                                         </li>
                                     </ul>
                                   <div>.</div>
-                                  <div style="color: #C7C7C7">Visite nuestra página web <a href="http://www.os-ingenieria.cl" target="new">&nbsp;<img src="<?php echo base_url('/assets/img/logo_ossmall.png')?>" class="img-fluid"></a></div>
+                                  <div style="color: #C7C7C7">Visite nuestra página web <a href="http://www.os-ingenieria.cl" target="new">&nbsp;<img src="<?php echo base_url('/assets/img/logoodoursmall.png')?>" class="img-fluid"></a></div>
 </div>
     
                             </div>
