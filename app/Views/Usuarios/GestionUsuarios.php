@@ -59,13 +59,13 @@
                 </div>  
                 <div class="form-group">
                     <label for="tipo">Imagen:</label>
-                    <input type="file" name="imagen" id="imagen" class="form-control" />
+                    <input type="file" name="imagenFile" id="imagenFile" class="form-control" />
                     <span id="imagen_Usuario_error" class="text-danger">
                 </div> 
                 <div class="form-group">
                     <label for="tipo">Telefono:</label>
                     <input type="tel" name="telefono" id="telefono" class="form-control"  minlength="9" maxlength="12" />
-                    <span id="imagen_Usuario_error" class="text-danger">
+                    <span id="telefono_Usuario_error" class="text-danger">
                 </div> 
             </div>
             <div class="modal-footer">
@@ -105,7 +105,7 @@
                         $.ajax ({
                             type: "POST",
                             url: "<?php echo base_url('/editarUsuario')?>",
-                            data: $(this).serialize(),
+                            data: FormData,
                             dataType: "JSON",
                             beforSend: function(){
                                 $('#submit_buttonGU').val('Espere...');
@@ -120,7 +120,7 @@
                                     $('#correo_Usuario_error').text(data.correo_Usuario_error);
                                     $('#tipo_Usuario_error').text(data.tipo_Usuario_error);
                                     $('#imagen_Usuario_error').text(data.imagen_Usuario_error);
-                                    $('#telefono_Usuario_error').text(data.imagen_Usuario_error);
+                                    $('#telefono_Usuario_error').text(data.telefono_Usuario_error);
                                 }
                                 else{
                                     $('#addUsuario').modal("hide");
@@ -136,11 +136,17 @@
                         })
                     }
                     else{
+                        const form = document.getElementById('AddUsuarioModal');
+                        var formData = new FormData(form);
+                        formData.append('nombreUsuario', $('#nombreUsuario').val());
+                        formData.append('emailUsuario', $('#emailUsuario').val());
+                        formData.append('tipo', $('#tipo').val());
+                        formData.append('telefono', $('#telefono').val());
+                        //formData.append('imagenFile', imagenFile.files[0]);
                         $.ajax ({
                             type: "POST",
                             url: "<?php echo base_url('/addUsuario')?>",
-                            data: $(this).serialize(),
-                            dataType: "JSON",
+                            data: formData,
                             beforSend: function(){
                                 $('#submit_buttonGU').val('Espere...');
                                 $('#submit_buttonGU').attr('disabled','disabled');
@@ -153,7 +159,7 @@
                                     $('#correo_Usuario_error').text(data.correo_Usuario_error);
                                     $('#tipo_Usuario_error').text(data.tipo_Usuario_error);
                                     $('#imagen_Usuario_error').text(data.imagen_Usuario_error);
-                                    $('#telefono_Usuario_error').text(data.imagen_Usuario_error);
+                                    $('#telefono_Usuario_error').text(data.telefono_Usuario_error);
                                 }
                                 else{
                                     $('#addUsuario').modal("hide");

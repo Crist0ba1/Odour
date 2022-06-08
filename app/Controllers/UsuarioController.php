@@ -46,8 +46,8 @@ class UsuarioController extends BaseController
             $error = $this->validate([
                 'nombreUsuario' => 'required|min_length[2]',
                 'emailUsuario' => 'required|valid_email|is_unique[usuarios.Correo]|min_length[2]',
-                'tipo' => 'required|max_length[2]',
-                /*'imagen' => 'required'*/
+                'tipo' => 'required',
+                'imagenFile' => 'uploaded[imagenFile]|ext_in[imagenFile,jpg,jpeg,gif,png]',
                 'telefono' => 'required|min_length[9]|max_length[12]', //ejemplo de telefono de casa 752 XXX XXX
             ]);
             if(!$error){
@@ -62,13 +62,21 @@ class UsuarioController extends BaseController
                 if($validation->getError('tipo')){
                     $tipo_Usuario_error = $validation->getError('tipo');
                 }
+                if($validation->getError('imagenFile')){
+                    $imagen_Usuario_error = $validation->getError('imagenFile');
+                }
                 if($validation->getError('telefono')){
                     $telefono_Usuario_error = $validation->getError('telefono');
                 }
             }
             else{
                 $success = "yes";                   
-                
+                 /* Analicis para la imagen */
+                 $imageFile1 = $this->request->getFile('imagen');
+                 $img = $this->imagen($id, $imageFile1);
+                 if($img==0){
+                     $img = 'No disponible';
+                 }
                 if($this->request->getVar('action') == 'add'){
                     $UsuarioModel = new UsuariosModel();
                     $UsuarioModel->insert([
@@ -77,7 +85,7 @@ class UsuarioController extends BaseController
                         'clave' =>$this->request->getVar('emailUsuario'),
                         'Tipo' =>$this->request->getVar('tipo'),
                         'telefono' =>$this->request->getVar('telefono'),
-                        'imagen' =>'No disponible'
+                        'imagen' =>$img
                     ]);
                     $message = '<div class="alert alert-success"> Usuario creado con exito </div>';
                 }
@@ -128,7 +136,7 @@ class UsuarioController extends BaseController
             $error = $this->validate([
                 'nombreUsuario' => 'required|min_length[2]',
                 'tipo' => 'required|max_length[2]',
-                /*'imagen' => 'required'*/
+                'imagen' => 'uploaded[imagen]'.'|is_image[imagen]'. '|mime_in[imagen,image/jpg,image/jpeg,image/gif,image/png,image/webp]',
                 'telefono' => 'required|min_length[9]|max_length[12]', //ejemplo de telefono de casa 752 XXX XXX
             ]);
             if(!$error){
@@ -136,6 +144,9 @@ class UsuarioController extends BaseController
                 $validation = \Config\Services::validation();
                 if($validation->getError('nombreUsuario')){
                     $nombre_Usuario_error = $validation->getError('nombreUsuario');
+                }
+                if($validation->getError('imagen')){
+                    $imagen_Usuario_error = $validation->getError('imagen');
                 }
                 if($validation->getError('tipo')){
                     $tipo_Usuario_error = $validation->getError('tipo');
@@ -151,12 +162,15 @@ class UsuarioController extends BaseController
                     $UsuarioModel = new UsuariosModel();
                     $id = $this->request->getVar('hiden_id');
 
+                    /* Analicis para la imagen */
+                    $imageFile1 = $this->request->getFile('imagen');
+                    $img = $this->imagen($id, $imageFile1);
 
                     $data = [
                         'Nombre' => $this->request->getVar('nombreUsuario'),
                         'Tipo' =>$this->request->getVar('tipo'),
                         'telefono' =>$this->request->getVar('telefono'),
-                        /*'imagen' =>$this->request->getVar('imagen')*/
+                        'imagen' =>$img
                     ];
                     $UsuarioModel->update($id, $data);
                     $message = '<div class="alert alert-info"> Usuario editado con exito </div>';
@@ -196,5 +210,18 @@ class UsuarioController extends BaseController
     public function tablaUsuario(){
         echo view('Tablas/TablaUsuarios');
     }
- 
+    
+    private function imagen($id, $img){
+        $nombre_fichero = './public/assets/imgUsser/';
+        if(!file_exists($nombre_fichero)){
+             mkdir($nombre_fichero, 0777, true);             
+         }
+        $name = $id+'.'+$img->getClientMimeType(); 
+        if(!file_exists($nombre_fichero+'/'+$id)){
+            unlink($nombre_fichero+'/'+$id);
+        }
+        $img->move($nombre_fichero . $name);
+
+        return $name;
+    }
 }
