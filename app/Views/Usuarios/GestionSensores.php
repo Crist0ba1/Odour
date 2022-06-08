@@ -87,6 +87,7 @@
                 });
                 
                 $('#AddSensoresModal').on('submit',function(event){
+                    console.log($(this).serialize())
                     event.preventDefault();
                     $.ajax ({
                         type: "POST",
@@ -199,9 +200,18 @@
                         alert('Disculpe, existió un problema');
                     }
                 });
+
+                $('#tablerosSelect').on('change', function(){
+                    var selected = $(this).find("option:selected");
+                    var arrSelected = [];
+                    var  cat = "";
+                    selected.each(function(){
+                        arrSelected.push($(this).val());
+                        cat+= $(this).val() +" ";
+                    });
+                    $('#listTablero').val(cat);
+                });
                 
         });    
    
 </script>
-
-

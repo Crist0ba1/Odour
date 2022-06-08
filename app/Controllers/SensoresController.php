@@ -5,8 +5,8 @@ namespace App\Controllers;
 use App\Models\TableroModel;
 use App\Models\SensoresModel;
 use App\Models\TableroSensorModel;
-
 use monken\TablesIgniter;
+
 class SensoresController extends BaseController
 {
     public function gestionSensores(){
@@ -54,12 +54,26 @@ class SensoresController extends BaseController
                 $success = "yes";                   
                 
                 if($this->request->getVar('actionS') == 'add'){
+                    
                     $SensoresModel = new SensoresModel();
                     $SensoresModel->insert([
                         'nombre' =>$this->request->getVar('nombreSensor'),
                         'tipo' =>$this->request->getVar('tipoSensor'),
                     ]);
-                    $message = '<div class="alert alert-success"> Sensor creado con exito </div>';
+                    $sensor_id = $SensoresModel->getInsertID();
+                    $message = '<div class="alert alert-success"> Sensor creado con éxito. </div>';
+
+                    if($this->request->getVar('listTablero')){
+                        $listT = $this->request->getVar('listTablero');
+                        $tableros = explode(" ", trim($listT));
+                        $modelUT = new TableroSensorModel();
+                        foreach($tableros as $tablero){
+                            $modelUT->insert([
+                                'refTablero' => $tablero,
+                                'refSensor' => $sensor_id
+                            ]);
+                        }
+                    }
                 }
                 if($this->request->getVar('actionS') == 'edit'){
                     
@@ -71,6 +85,18 @@ class SensoresController extends BaseController
                     ];
                     $SensoresModel->update($id, $data);
                     $message = '<div class="alert alert-info"> Sensor editado con exito </div>';
+
+                    if($this->request->getVar('listTablero')){
+                        $listT = $this->request->getVar('listTablero');
+                        $tableros = explode(" ", trim($listT));
+                        $modelUT = new TableroSensorModel();
+                        foreach($tableros as $tablero){
+                            $modelUT->insert([
+                                'refTablero' => $tablero,
+                                'refSensor' => $id
+                            ]);
+                        }
+                    }
                 }
 
             }
@@ -79,7 +105,7 @@ class SensoresController extends BaseController
                 'tipo_sensor_error' => $tipo_sensor_error,
                 'error' => $error,
                 'success' => $success,
-                'message' => $message
+                'message' => $message,
             );
             echo json_encode($output);
         }
@@ -108,7 +134,7 @@ class SensoresController extends BaseController
 
     public function tablerosSensores($idSensor){
         $tableroSensor = new TableroSensorModel();
-        $tableros = $tableroSensor->where('refTablero',$idSensor)->select('refTablero')->findAll();
+        $tableros = $tableroSensor->where('refSensor',$idSensor)->select('refTablero')->findAll();
         return json_encode($tableros);
     }
 }

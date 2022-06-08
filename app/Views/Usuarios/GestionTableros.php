@@ -263,11 +263,9 @@
                     selected.each(function(){
                         arrSelected.push($(this).val());
                         cat+= $(this).val() +" ";
-                });
+                    });
                     $('#listusuarios').val(cat);
-
-    });
-
+                });
 
         });    
    
