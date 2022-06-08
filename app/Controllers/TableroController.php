@@ -84,12 +84,12 @@ class TableroController extends BaseController
 
                     if($this->request->getVar('listusuarios')){
                         $listU = $this->request->getVar('listusuarios');
-                        $listU = $this->stringToarray($listU);
+                        $listU = explode(" ", trim($listU));;
 
                         $modelU = new UsuarioTableroModel();
-                        foreach($listU as $usser){
+                        foreach($listU as $user){
                             $modelU->insert([
-                                'refUsuario' => $usser,
+                                'refUsuario' => $user,
                                 'refTablero' => $tablero_id
                             ]);
                         }
@@ -108,6 +108,28 @@ class TableroController extends BaseController
                     ];
                     $tableroModel->update($id, $data);
                     $message = '<div class="alert alert-info"> Tablero editado con exito </div>';
+
+                    if($this->request->getVar('listusuarios')){
+                        $listU = $this->request->getVar('listusuarios');
+                        $listU = array_map('intval', explode(" ", trim($listU)));
+
+                        $modelU = new UsuarioTableroModel();
+                        $relaciones = $modelU->where('refTablero',$id)->findAll();
+                        $relacionesLimpio = array();
+                        foreach($relaciones as $relacion){
+                            $relacionesLimpio[] = $relacion['refUsuario'];
+                        }
+
+                        foreach($listU as $user){
+                            if (!in_array($user, $relacionesLimpio)){
+                                $modelU->insert([
+                                    'refUsuario' => $user,
+                                    'refTablero' => $id
+                                ]);
+                            }
+                        }
+                    }
+
                 }
 
             }

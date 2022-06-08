@@ -66,9 +66,9 @@ class SensoresController extends BaseController
                     if($this->request->getVar('listTablero')){
                         $listT = $this->request->getVar('listTablero');
                         $tableros = explode(" ", trim($listT));
-                        $modelUT = new TableroSensorModel();
+                        $modelST = new TableroSensorModel();
                         foreach($tableros as $tablero){
-                            $modelUT->insert([
+                            $modelST->insert([
                                 'refTablero' => $tablero,
                                 'refSensor' => $sensor_id
                             ]);
@@ -89,12 +89,21 @@ class SensoresController extends BaseController
                     if($this->request->getVar('listTablero')){
                         $listT = $this->request->getVar('listTablero');
                         $tableros = explode(" ", trim($listT));
-                        $modelUT = new TableroSensorModel();
+
+                        $modelST = new TableroSensorModel();
+                        $relaciones = $modelST->where('refSensor',$id)->findAll();
+                        $relacionesLimpio = array();
+                        foreach($relaciones as $relacion){
+                            $relacionesLimpio[] = $relacion['refTablero'];
+                        }
+
                         foreach($tableros as $tablero){
-                            $modelUT->insert([
-                                'refTablero' => $tablero,
-                                'refSensor' => $id
-                            ]);
+                            if (!in_array($tablero, $relacionesLimpio)){
+                                $modelST->insert([
+                                    'refTablero' => $tablero,
+                                    'refSensor' => $id
+                                ]);
+                            }
                         }
                     }
                 }
