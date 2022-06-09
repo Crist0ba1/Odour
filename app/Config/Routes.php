@@ -59,6 +59,7 @@ $routes->post('/deleteUsuario', 'UsuarioController::deleteUsuario');
 $routes->post('/editUsuario', 'UsuarioController::editUsuario');
 $routes->post('/editarUsuario', 'UsuarioController::editarUsuario');
 $routes->get('/tablaUsuario', 'UsuarioController::tablaUsuario');
+$routes->get('/tablerosDeUsuario/(:any)', 'UsuarioController::tablerosDeUsuario/$1');
 
 /* Gestion de tableros*/
 $routes->get('/gestionTableros', 'TableroController::gestionTableros');//Por si se quiere cargar por ceparado

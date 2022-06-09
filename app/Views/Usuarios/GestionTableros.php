@@ -93,7 +93,7 @@
     </div>
 </form>
 
-<div id="verSensores" class="modal" tabindex="-1" role="dialog">
+<div id="verSensoresModal" class="modal" tabindex="-1" role="dialog">
   <div class="modal-dialog" role="document">
     <div class="modal-content">
       <div class="modal-header">
@@ -142,8 +142,8 @@
 <script type="text/javascript">          
            $(document).ready(function() {   
                
-                $(document).on('click', '.verTableros',function(){
-                    $('#verSensores').modal("show");  
+                $(document).on('click', '.verSensores',function(){
+                    $('#verSensoresModal').modal("show");  
                 });
                 //Añadimos la imagen de carga en el contenedor
                 $('#tablaTablero').html('<div class="d-flex justify-content-center"><img src="https://c.tenor.com/28DFFVtvNqYAAAAC/loading.gif" width="125" /><br/>Cargado tablas...</div>');

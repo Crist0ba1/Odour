@@ -80,8 +80,8 @@
     </div>
 </form>
 
-<div id="verTableros" class="modal" tabindex="-1" role="dialog">
-  <div class="modal-dialog" role="document">
+<div id="verTablerosModal" class="modal" tabindex="-1" role="dialog">
+  <div class="modal-dialog modal-lg" role="document">
     <div class="modal-content">
       <div class="modal-header">
         <h5 class="modal-title">Tableros asignados al usuario</h5>
@@ -90,7 +90,8 @@
         </button>
       </div>
       <div class="modal-body">
-        <p>Mostrar los tableros asociados y quizas permitir la gestion igual???.</p>
+        <p>tablero tablero tablero</p>
+        <div id="mostrarTableros"></div>
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-primary">Save changes</button>
@@ -103,9 +104,25 @@
 <script type="text/javascript">
            
            $(document).ready(function() {    
-                
-                $(document).on('click', '.verSensores',function(){
-                    $('#verTableros').modal("show");  
+                $(document).on('click', '.verTableros',function(){
+                    var id = $(this).data('id');
+                    
+                    $.ajax({
+                        type: "GET",
+                        url: "<?php echo base_url('/tablerosDeUsuario')?>/"+id,
+                        success: function(data) {
+                            $('#verTablerosModal').modal("show"); 
+                            //Cargamos finalmente el contenido deseado
+                            setTimeout(function () {
+                                $('#mostrarTableros').fadeIn(1000).html(data);
+                            }, 1500);
+                            
+                        },
+                        error : function(xhr, status) {
+                            alert('Disculpe, existió un problema');
+                        }
+                    });
+                    
                 });
                 //Añadimos la imagen de carga en el contenedor
                 $('#tablaUsuario').html('<div class="d-flex justify-content-center"><img src="https://c.tenor.com/28DFFVtvNqYAAAAC/loading.gif" width="125" /><br/>Cargado tablas...</div>');
@@ -123,20 +140,18 @@
                 
                 $('#AddUsuarioModal').on('submit',function(event){
                     event.preventDefault();
+
                     if($('#action').val() == 'edit'){
                         $.ajax ({
                             type: "POST",
                             url: "<?php echo base_url('/editarUsuario')?>",
-                            data: FormData,
-                            dataType: "JSON",
+                            data: $(this).serialize(),
+                            enctype: 'multipart/form-data',
                             beforSend: function(){
                                 $('#submit_buttonGU').val('Espere...');
                                 $('#submit_buttonGU').attr('disabled','disabled');
                             },
                             success: function(data){
-                                $('#submit_buttonGU').val('Agregar');
-                                $('#submit_buttonGU').attr('disabled',false);
-                                $('#emailUsuario').attr('readonly',false);
                                 if(data.error == "yes"){
                                     $('#nombre_Usuario_error').text(data.nombre_Usuario_error);
                                     $('#correo_Usuario_error').text(data.correo_Usuario_error);
@@ -144,15 +159,20 @@
                                     $('#imagen_Usuario_error').text(data.imagen_Usuario_error);
                                     $('#telefono_Usuario_error').text(data.telefono_Usuario_error);
                                 }
-                                else{
+                                if(data.success=="yes"){                                    
+                                    $('#submit_buttonGU').val('Agregar');
+                                    $('#submit_buttonGU').attr('disabled',false);
+                                    $('#emailUsuario').attr('readonly',false);
                                     $('#addUsuario').modal("hide");
                                     $('#mensajeUsuario').html(data.message);
                                     $('#tablaUsuarios').DataTable().ajax.reload();
 
+
                                     setTimeout(() => {
-                                        $('#mensajeUsuario').html('');
+                                        $('#mensajeSensores').html('');
                                     }, 5000);
                                 }
+                                Console.log("PUTA LA WEA");
                             }
 
                         })
@@ -226,7 +246,6 @@
                         error:function(){
                             alert("Error en la llamada AJAX");
                         }
-
                     });
                 });
 

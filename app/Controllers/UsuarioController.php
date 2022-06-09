@@ -7,6 +7,7 @@ use App\Models\UsuariosModel;
 use App\Models\TablaModel;
 use App\Models\TableroModel;
 use App\Models\InputModel;
+use App\Models\UsuarioTableroModel;
 
 use monken\TablesIgniter;
 class UsuarioController extends BaseController
@@ -47,7 +48,7 @@ class UsuarioController extends BaseController
                 'nombreUsuario' => 'required|min_length[2]',
                 'emailUsuario' => 'required|valid_email|is_unique[usuarios.Correo]|min_length[2]',
                 'tipo' => 'required',
-                'imagenFile' => 'uploaded[imagenFile]|ext_in[imagenFile,jpg,jpeg,gif,png]',
+                'imagen' => 'uploaded[imagen]|ext_in[imagen,jpg,jpeg,gif,png]',
                 'telefono' => 'required|min_length[9]|max_length[12]', //ejemplo de telefono de casa 752 XXX XXX
             ]);
             if(!$error){
@@ -136,7 +137,7 @@ class UsuarioController extends BaseController
             $error = $this->validate([
                 'nombreUsuario' => 'required|min_length[2]',
                 'tipo' => 'required|max_length[2]',
-                'imagen' => 'uploaded[imagen]'.'|is_image[imagen]'. '|mime_in[imagen,image/jpg,image/jpeg,image/gif,image/png,image/webp]',
+                //'imagen' => 'uploaded[imagen]'.'|is_image[imagen]'. '|mime_in[imagen,image/jpg,image/jpeg,image/gif,image/png,image/webp]',
                 'telefono' => 'required|min_length[9]|max_length[12]', //ejemplo de telefono de casa 752 XXX XXX
             ]);
             if(!$error){
@@ -156,21 +157,18 @@ class UsuarioController extends BaseController
                 }
             }
             else{
+                $error ="no";
                 $success = "yes";                   
                 if($this->request->getVar('action') == 'edit'){
                     
                     $UsuarioModel = new UsuariosModel();
                     $id = $this->request->getVar('hiden_id');
 
-                    /* Analicis para la imagen */
-                    $imageFile1 = $this->request->getFile('imagen');
-                    $img = $this->imagen($id, $imageFile1);
-
                     $data = [
                         'Nombre' => $this->request->getVar('nombreUsuario'),
                         'Tipo' =>$this->request->getVar('tipo'),
                         'telefono' =>$this->request->getVar('telefono'),
-                        'imagen' =>$img
+                        'imagen' =>"Aqui llego"
                     ];
                     $UsuarioModel->update($id, $data);
                     $message = '<div class="alert alert-info"> Usuario editado con exito </div>';
@@ -217,11 +215,20 @@ class UsuarioController extends BaseController
              mkdir($nombre_fichero, 0777, true);             
          }
         $name = $id+'.'+$img->getClientMimeType(); 
-        if(!file_exists($nombre_fichero+'/'+$id)){
-            unlink($nombre_fichero+'/'+$id);
+        if(!file_exists($nombre_fichero+$id)){
+            unlink($nombre_fichero+$id);
         }
         $img->move($nombre_fichero . $name);
 
-        return $name;
+        return "putaLaWea";
+    }
+
+    public function tablerosDeUsuario($id){
+        $UTmodel = new UsuarioTableroModel();
+        $tablerosDeUsuario = $UTmodel->where('refUsuario',$id)->select('refTablero')->findAll();
+        return json_encode($tablerosDeUsuario);
+        $modalTablero = new TableroModel();
+        $infotableros = $modalTablero->where('idTablero',$tablerosDeUsuario)->findAll();
+        return json_encode($infotableros);
     }
 }

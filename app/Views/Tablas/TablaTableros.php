@@ -15,6 +15,7 @@
 </div>
 
 <script>
+    
     $(document).ready(function(){
         $('#tablaTableros').dataTable({
             "responsive": true,
@@ -25,5 +26,6 @@
                 type:"POST",            
             }
         });
+        
     });
 </script>

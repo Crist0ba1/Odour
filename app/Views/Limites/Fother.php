@@ -113,7 +113,7 @@
 		<?php endif;?>
 
         function cargarDatos(){
-            alert("Entro a cargar datos <?php echo base_url('/CargarDatos.js')?>");
+            //alert("Entro a cargar datos <?php echo base_url('/CargarDatos.js')?>");
             var worker = new Worker("<?php echo base_url('/CargarDatos.js')?>");
             var cantidad = {addThis: {num:2}}; //Numero de datos que se quieren ingresar app xD
             worker.postMessage(cantidad);
