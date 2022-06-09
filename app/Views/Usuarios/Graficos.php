@@ -47,7 +47,7 @@
                                 </div>
                                 <div class="col-12 mt-2">
                                     <div class="col">
-                                        <div id="GoogleLineChart" style="height: 400px; width: 100%"></div>
+                                    <div id="GoogleLineChart-<?php echo $sensor['idSensor'] ?>" style="height: 400px; width: 100%" class="sensor_id" value="<?php echo $sensor['idSensor'] ?>"></div>
 
                                     </div>
                                 </div>
@@ -133,6 +133,11 @@
         google.charts.setOnLoadCallback(drawLineChart);
 
         function drawLineChart() {
+
+            const graficos = document.querySelectorAll(
+                '.sensor_id'
+            );
+
             $.ajax({
                 url: "<?php echo base_url('/initChart'); ?>",
                 dataType: "json",
@@ -149,7 +154,7 @@
                     }
                     var data = google.visualization.arrayToDataTable(valores);
                     var options = {
-                        title: 'Grafico de linea de los ultimos 10 datos ingresados',
+                        title: 'Gráfico de linea de los ultimos 10 datos ingresados',
                         subtitle: 'Los datos son ingresados cada 5 segundos',
                         curveType: 'function',
                         legend: {
@@ -166,11 +171,12 @@
                             },
                         },
                     }
-                    var chart = new google.visualization.LineChart(document.getElementById('GoogleLineChart'));
-                    chart.draw(data, options);
 
-                    var chart2 = new google.visualization.LineChart(document.getElementById('GoogleLineChart2'));
-                    chart2.draw(data, options);
+                    graficos.forEach(grafico => {
+                        console.log(grafico.getAttribute('value'));
+                        var chart = new google.visualization.LineChart(document.getElementById('GoogleLineChart-'+grafico.getAttribute('value')));
+                        chart.draw(data, options);
+                    });
                 }
             });
             $.ajax({
@@ -186,6 +192,19 @@
                 }
             });
         }
+
+        $('#tableroSelect').on('change', function() {
+        // alert( this.value );
+            $.post(
+                    "<?php echo base_url('/Tablero/Ver'); ?>",
+                    {tablero: this.value},
+                    function(data) {
+                        // console.log(data)
+                        drawLineChart();
+                        $('#sensores').html(data);
+                    }
+            );
+        });
         
         setInterval(drawLineChart, 10000);
     });
@@ -204,16 +223,6 @@
         });
     }
 
-    $('#tableroSelect').on('change', function() {
-        // alert( this.value );
-        $.post(
-                "<?php echo base_url('/Tablero/Ver'); ?>",
-                {tablero: this.value},
-                function(data) {
-                    console.log(data)
-                    $('#sensores').html(data)
-                }
-        );
-    });
+   
 
 </script>

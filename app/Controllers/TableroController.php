@@ -225,7 +225,7 @@ class TableroController extends BaseController
                             </div>
                             <div class="col-12 mt-2">
                                 <div class="col">
-                                    <div id="GoogleLineChart" style="height: 400px; width: 100%"></div>
+                                    <div id="GoogleLineChart-<?php echo $sensor['idSensor'] ?>" style="height: 400px; width: 100%" class="sensor_id" value="<?php echo $sensor['idSensor'] ?>"></div>
 
                                 </div>
                             </div>
