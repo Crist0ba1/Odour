@@ -82,10 +82,10 @@
                                 <p>
                                     Santiago, Chile <br>
                                     Oficina 1: Av. Nueva Providencia 1881, oficina 201, Providencia<br>
-<br>
-Oficina 2: Balmaceda 514, oficina 201, Buin <br>
                                     <br>
-Celular +56 9 42944220 <br>
+                                    Oficina 2: Balmaceda 514, oficina 201, Buin <br>
+                                                                        <br>
+                                    Celular +56 9 42944220 <br>
                                     contacto@odoursolution.com
                                 </p>
                             </div>
@@ -112,13 +112,28 @@ Celular +56 9 42944220 <br>
 			<?php endif;?>
 		<?php endif;?>
 
+        function cargarDatos(){
+            //alert("Entro a cargar datos <?php echo base_url('/CargarDatos.js')?>");
+            var worker = new Worker("<?php echo base_url('/CargarDatos.js')?>");
+            var cantidad = {addThis: {num:2}}; //Numero de datos que se quieren ingresar app xD
+            worker.postMessage(cantidad);
 
+            worker.onmessage = function(e){
+                if(e.data.result == 1){
+                    alert('Lo logro');
+                }else{
+                    alert('No lo logro');
+                }
+            }
+
+        }
+        window.onload = cargarDatos;
 
     </script>
 
 	<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js" integrity="sha384-9/reFTGAW83EW2RDu2S0VKaIzap3H66lZH81PoYlFhbGU+6BZp6G7niu735Sk7lN" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/js/bootstrap.min.js" integrity="sha384-w1Q4orYjBQndcko6MimVbzY0tgp4pWB4lZ7lr30WKz0vr/aWKhXdBNmNb5D92v7s" crossorigin="anonymous"></script>
     
-
+    
 </body>
 </html>

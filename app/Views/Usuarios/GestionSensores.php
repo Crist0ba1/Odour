@@ -87,7 +87,6 @@
                 });
                 
                 $('#AddSensoresModal').on('submit',function(event){
-                    console.log($(this).serialize())
                     event.preventDefault();
                     $.ajax ({
                         type: "POST",

@@ -59,13 +59,13 @@
                 </div>  
                 <div class="form-group">
                     <label for="tipo">Imagen:</label>
-                    <input type="file" name="imagen" id="imagen" class="form-control" />
+                    <input type="file" name="imagenFile" id="imagenFile" class="form-control" />
                     <span id="imagen_Usuario_error" class="text-danger">
                 </div> 
                 <div class="form-group">
                     <label for="tipo">Telefono:</label>
                     <input type="tel" name="telefono" id="telefono" class="form-control"  minlength="9" maxlength="12" />
-                    <span id="imagen_Usuario_error" class="text-danger">
+                    <span id="telefono_Usuario_error" class="text-danger">
                 </div> 
             </div>
             <div class="modal-footer">
@@ -80,11 +80,50 @@
     </div>
 </form>
 
-
+<div id="verTablerosModal" class="modal" tabindex="-1" role="dialog">
+  <div class="modal-dialog modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">Tableros asignados al usuario</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <p>tablero tablero tablero</p>
+        <div id="mostrarTableros"></div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-primary">Save changes</button>
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+      </div>
+    </div>
+  </div>
+</div>
 
 <script type="text/javascript">
            
            $(document).ready(function() {    
+                $(document).on('click', '.verTableros',function(){
+                    var id = $(this).data('id');
+                    
+                    $.ajax({
+                        type: "GET",
+                        url: "<?php echo base_url('/tablerosDeUsuario')?>/"+id,
+                        success: function(data) {
+                            $('#verTablerosModal').modal("show"); 
+                            //Cargamos finalmente el contenido deseado
+                            setTimeout(function () {
+                                $('#mostrarTableros').fadeIn(1000).html(data);
+                            }, 1500);
+                            
+                        },
+                        error : function(xhr, status) {
+                            alert('Disculpe, existió un problema');
+                        }
+                    });
+                    
+                });
                 //Añadimos la imagen de carga en el contenedor
                 $('#tablaUsuario').html('<div class="d-flex justify-content-center"><img src="https://c.tenor.com/28DFFVtvNqYAAAAC/loading.gif" width="125" /><br/>Cargado tablas...</div>');
                 
@@ -101,46 +140,55 @@
                 
                 $('#AddUsuarioModal').on('submit',function(event){
                     event.preventDefault();
+
                     if($('#action').val() == 'edit'){
                         $.ajax ({
                             type: "POST",
                             url: "<?php echo base_url('/editarUsuario')?>",
                             data: $(this).serialize(),
-                            dataType: "JSON",
+                            enctype: 'multipart/form-data',
                             beforSend: function(){
                                 $('#submit_buttonGU').val('Espere...');
                                 $('#submit_buttonGU').attr('disabled','disabled');
                             },
                             success: function(data){
-                                $('#submit_buttonGU').val('Agregar');
-                                $('#submit_buttonGU').attr('disabled',false);
-                                $('#emailUsuario').attr('readonly',false);
                                 if(data.error == "yes"){
                                     $('#nombre_Usuario_error').text(data.nombre_Usuario_error);
                                     $('#correo_Usuario_error').text(data.correo_Usuario_error);
                                     $('#tipo_Usuario_error').text(data.tipo_Usuario_error);
                                     $('#imagen_Usuario_error').text(data.imagen_Usuario_error);
-                                    $('#telefono_Usuario_error').text(data.imagen_Usuario_error);
+                                    $('#telefono_Usuario_error').text(data.telefono_Usuario_error);
                                 }
-                                else{
+                                if(data.success=="yes"){                                    
+                                    $('#submit_buttonGU').val('Agregar');
+                                    $('#submit_buttonGU').attr('disabled',false);
+                                    $('#emailUsuario').attr('readonly',false);
                                     $('#addUsuario').modal("hide");
                                     $('#mensajeUsuario').html(data.message);
                                     $('#tablaUsuarios').DataTable().ajax.reload();
 
+
                                     setTimeout(() => {
-                                        $('#mensajeUsuario').html('');
+                                        $('#mensajeSensores').html('');
                                     }, 5000);
                                 }
+                                Console.log("PUTA LA WEA");
                             }
 
                         })
                     }
                     else{
+                        const form = document.getElementById('AddUsuarioModal');
+                        var formData = new FormData(form);
+                        formData.append('nombreUsuario', $('#nombreUsuario').val());
+                        formData.append('emailUsuario', $('#emailUsuario').val());
+                        formData.append('tipo', $('#tipo').val());
+                        formData.append('telefono', $('#telefono').val());
+                        //formData.append('imagenFile', imagenFile.files[0]);
                         $.ajax ({
                             type: "POST",
                             url: "<?php echo base_url('/addUsuario')?>",
-                            data: $(this).serialize(),
-                            dataType: "JSON",
+                            data: formData,
                             beforSend: function(){
                                 $('#submit_buttonGU').val('Espere...');
                                 $('#submit_buttonGU').attr('disabled','disabled');
@@ -153,7 +201,7 @@
                                     $('#correo_Usuario_error').text(data.correo_Usuario_error);
                                     $('#tipo_Usuario_error').text(data.tipo_Usuario_error);
                                     $('#imagen_Usuario_error').text(data.imagen_Usuario_error);
-                                    $('#telefono_Usuario_error').text(data.imagen_Usuario_error);
+                                    $('#telefono_Usuario_error').text(data.telefono_Usuario_error);
                                 }
                                 else{
                                     $('#addUsuario').modal("hide");
@@ -198,7 +246,6 @@
                         error:function(){
                             alert("Error en la llamada AJAX");
                         }
-
                     });
                 });
 
