@@ -130,6 +130,7 @@
         google.charts.load('current', {
             'packages': ['corechart']
         });
+        
         google.charts.setOnLoadCallback(drawLineChart);
 
         function drawLineChart() {
@@ -193,6 +194,8 @@
             });
         }
 
+        setInterval(drawLineChart, 10000);
+
         $('#tableroSelect').on('change', function() {
         // alert( this.value );
             $.post(
@@ -200,13 +203,13 @@
                     {tablero: this.value},
                     function(data) {
                         // console.log(data)
-                        drawLineChart();
                         $('#sensores').html(data);
+                        drawLineChart();
                     }
             );
         });
         
-        setInterval(drawLineChart, 10000);
+        
     });
 
     function resetFunction() {
