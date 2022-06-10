@@ -59,18 +59,18 @@
                                     <div class="row justify-content-center">
                                         <div class="col-5 col-sm-5">
                                             <button type="button" class="btn btn-primary btn-block">
-                                                N° de mediciones hechas <span id="numDatos" class="badge badge-light"></span>
+                                                N° de mediciones hechas: <span id="numDatos-<?php echo $sensor['idSensor'] ?>" class="badge badge-light"></span>
                                             </button>
                                             <button type="button" class="btn btn-secondary btn-block">
-                                                Promedio <span id="promedio" class="badge badge-light"></span>
+                                                Promedio: <span id="promedio-<?php echo $sensor['idSensor'] ?>" class="badge badge-light"></span>
                                             </button>
                                         </div>
                                         <div class="col-5 col-sm-5">
                                             <button type="button" class="btn btn-danger btn-block">
-                                                Medición máxima <span id="medidaMaxima" class="badge badge-light"></span>
+                                                Medición máxima: <span id="medidaMaxima-<?php echo $sensor['idSensor'] ?>" class="badge badge-light"></span>
                                             </button>
                                             <button type="button" class="btn btn-info btn-block">
-                                                Medición mínima <span id="medidaMinima" class="badge badge-light"></span>
+                                                Medición mínima: <span id="medidaMinima-<?php echo $sensor['idSensor'] ?>" class="badge badge-light"></span>
                                             </button>
 
                                         </div>
@@ -147,17 +147,54 @@
 
                     graficos.forEach(grafico => {
 
+                        // Declaracion de variables estadisticas
+                        let max = null;
+                        let min = null;
+                        let nroMediciones = 0;
+                        let promedio = 0;                    
+
                         const valores = [
-                            ['fecha', 'valor'],
+                            ['fecha', 'mediciones'],
                         ];
 
                         if (typeof response[grafico.getAttribute('value').toString()] !== 'undefined') {
                             response[grafico.getAttribute('value').toString()].forEach(input => {
+
                                 let date = new Date(input['fecha']);
                                 let result = parseFloat(input['valor']);
                                 const aux = [date, result];
                                 valores.push(aux);
+
+                                if (max == null){
+                                    max = result;
+                                } else {
+                                    if (max < result){
+                                        max = result;
+                                    }
+                                }
+
+                                if (min == null){
+                                    min = result;
+                                } else {
+                                    if (min > result){
+                                        min = result;
+                                    }
+                                }
+
+                                nroMediciones++;
+
+                                promedio = promedio + result;
+
                             });
+
+                            promedio = promedio/nroMediciones;
+
+                            $("#numDatos-"+grafico.getAttribute('value').toString()).text(nroMediciones);
+                            $("#promedio-"+grafico.getAttribute('value').toString()).text(promedio.toFixed(2));
+                            $("#medidaMaxima-"+grafico.getAttribute('value').toString()).text(max);
+                            $("#medidaMinima-"+grafico.getAttribute('value').toString()).text(min);
+
+                            console.log('Max: '+max);
                         } else {
                             valores.push(['',0]);
                         }
@@ -180,6 +217,12 @@
                                 fillOpacity: 1
                                 },
                             },
+                            hAxis: {
+                                title: 'Tiempo',
+                            },
+                            vAxis: {
+                                title: 'Valor',
+                            },
                         }
 
                         var chart = new google.visualization.LineChart(document.getElementById('GoogleLineChart-'+grafico.getAttribute('value')));
@@ -187,18 +230,6 @@
                     });
                 },
                 dataType: "json",
-            });
-            $.ajax({
-                url: "<?php echo base_url('/inputs'); ?>",
-                dataType: "json",
-                method: "GET",
-                success: function(data) {
-                    $("#numDatos").text(data.numDatos);
-                    $("#promedio").text(data.promedio);
-                    $("#medidaMaxima").text(data.medidaMaxima);
-                    $("#medidaMinima").text(data.medidaMinima);
-
-                }
             });
         }
 
@@ -214,6 +245,10 @@
                     }
             );
         });
+
+        const getMax = () => {
+
+        }
         
         
     });
