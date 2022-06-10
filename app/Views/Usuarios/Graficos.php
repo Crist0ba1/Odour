@@ -205,7 +205,7 @@
 
                         var data = google.visualization.arrayToDataTable(valores);
                         var options = {
-                            title: 'Gráfico de linea de los ultimos 10 datos ingresados',
+                            title: 'Gráfico de linea de todos últimos datos ingresados',
                             subtitle: 'Los datos son ingresados cada 5 segundos',
                             curveType: 'function',
                             legend: {
