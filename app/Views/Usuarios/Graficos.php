@@ -43,7 +43,7 @@
                                     <h4>Sensor de <?php echo $sensor['nombre'] ?></h4>
                                     <a id="resetBtn" onclick="" class="btn btn-primary">Reiniciar</a>
                                     <a id="resetBtn" onclick="" class="btn btn-primary">Pausar</a>
-                                    <a id="resetBtn" onclick="" class="btn btn-primary">Descargar CSV</a>
+                                    <a id="resetBtn" onclick="descargarCsv(this)" class="btn btn-primary" value="<?php echo $sensor['idSensor'] ?>" name="<?php echo $sensor['nombre'] ?>">Descargar CSV</a>
                                 </div>
                                 <div class="col-12 mt-2">
                                     <div class="col">
@@ -127,6 +127,8 @@
 <script language="JavaScript">
     $(document).ready(function() {
 
+        let actualResponse = null;
+
         google.charts.load('current', {
             'packages': ['corechart']
         });
@@ -144,6 +146,8 @@
                 url: "<?php echo base_url('/getDataSensores'); ?>",
                 data: {tablero: $( "#tableroSelect" ).val()},
                 success: function(response) {
+
+                    actualResponse = response;
 
                     graficos.forEach(grafico => {
 
@@ -194,7 +198,7 @@
                             $("#medidaMaxima-"+grafico.getAttribute('value').toString()).text(max);
                             $("#medidaMinima-"+grafico.getAttribute('value').toString()).text(min);
 
-                            console.log('Max: '+max);
+                            // console.log('Max: '+max);
                         } else {
                             valores.push(['',0]);
                         }
@@ -246,10 +250,40 @@
             );
         });
 
-        const getMax = () => {
+        window.descargarCsv = (e) => {
 
-        }
-        
+            let csvContent = "data:text/csv;charset=utf-8,";
+            const valores = [
+                ['fecha', 'mediciones'],
+            ];
+
+            if (typeof actualResponse[e.getAttribute('value').toString()] !== 'undefined') {
+                actualResponse[e.getAttribute('value').toString()].forEach(input => {
+
+                    let date = new Date(input['fecha']);
+                    let result = parseFloat(input['valor']);
+                    const aux = [date, result];
+                    valores.push(aux);
+
+                });
+
+            } else {
+
+            }
+
+            valores.forEach(function(rowArray) {
+                let row = rowArray.join(",");
+                csvContent += row + "\r\n";
+            });
+
+            var encodedUri = encodeURI(csvContent);
+            var link = document.createElement("a");
+            link.setAttribute("href", encodedUri);
+            link.setAttribute("download", "sensor"+e.getAttribute('name').toString().replaceAll(/\s+/g, "")+"_sector"+$('#tableroSelect').find(":selected").text()+"_"+new Date().toLocaleDateString().replaceAll("/", "-")+"_"+new Date().toLocaleTimeString().replaceAll(":", "-")+".csv");
+            document.body.appendChild(link); // Required for FF
+
+            link.click();
+        }       
         
     });
 
