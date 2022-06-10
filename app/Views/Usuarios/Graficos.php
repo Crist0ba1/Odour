@@ -201,6 +201,10 @@
                             // console.log('Max: '+max);
                         } else {
                             valores.push(['',0]);
+                            $("#numDatos-"+grafico.getAttribute('value').toString()).text(0);
+                            $("#promedio-"+grafico.getAttribute('value').toString()).text(0);
+                            $("#medidaMaxima-"+grafico.getAttribute('value').toString()).text(0);
+                            $("#medidaMinima-"+grafico.getAttribute('value').toString()).text(0);
                         }
 
                         var data = google.visualization.arrayToDataTable(valores);

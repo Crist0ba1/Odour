@@ -261,47 +261,47 @@ class TableroController extends BaseController
                     
                 ?>
                     <div class="col-sm-12 col-md-6 p-4">
-                        <div class="row custom-cart p-3">
-                            <div class="col-12 text-center">
-                                <br>
-                                <h4>Sensor de <?php echo $sensor['nombre'] ?></h4>
-                                <a id="resetBtn" onclick="" class="btn btn-primary">Reiniciar</a>
-                                <a id="resetBtn" onclick="" class="btn btn-primary">Pausar</a>
-                                <a id="resetBtn" onclick="" class="btn btn-primary">Descargar CSV</a>
-                            </div>
-                            <div class="col-12 mt-2">
-                                <div class="col">
+                            <div class="row custom-cart p-3">
+                                <div class="col-12 text-center">
+                                    <br>
+                                    <h4>Sensor de <?php echo $sensor['nombre'] ?></h4>
+                                    <a id="resetBtn" onclick="" class="btn btn-primary">Reiniciar</a>
+                                    <a id="resetBtn" onclick="" class="btn btn-primary">Pausar</a>
+                                    <a id="resetBtn" onclick="descargarCsv(this)" class="btn btn-primary" value="<?php echo $sensor['idSensor'] ?>" name="<?php echo $sensor['nombre'] ?>">Descargar CSV</a>
+                                </div>
+                                <div class="col-12 mt-2">
+                                    <div class="col">
                                     <div id="GoogleLineChart-<?php echo $sensor['idSensor'] ?>" style="height: 400px; width: 100%" class="sensor_id" value="<?php echo $sensor['idSensor'] ?>"></div>
 
-                                </div>
-                            </div>
-                            <div class="col-12 text-center">
-                                <br>
-                                <div class="col-12">
-                                    <h4>Información estadística</h4>
-                                </div>
-                                <div class="row justify-content-center">
-                                    <div class="col-5 col-sm-5">
-                                        <button type="button" class="btn btn-primary btn-block">
-                                            N° de mediciones hechas <span id="numDatos" class="badge badge-light"></span>
-                                        </button>
-                                        <button type="button" class="btn btn-secondary btn-block">
-                                            Promedio <span id="promedio" class="badge badge-light"></span>
-                                        </button>
                                     </div>
-                                    <div class="col-5 col-sm-5">
-                                        <button type="button" class="btn btn-danger btn-block">
-                                            Medición máxima <span id="medidaMaxima" class="badge badge-light"></span>
-                                        </button>
-                                        <button type="button" class="btn btn-info btn-block">
-                                            Medición mínima <span id="medidaMinima" class="badge badge-light"></span>
-                                        </button>
+                                </div>
+                                <div class="col-12 text-center">
+                                    <br>
+                                    <div class="col-12">
+                                        <h4>Información estadística</h4>
+                                    </div>
+                                    <div class="row justify-content-center">
+                                        <div class="col-5 col-sm-5">
+                                            <button type="button" class="btn btn-primary btn-block">
+                                                N° de mediciones hechas: <span id="numDatos-<?php echo $sensor['idSensor'] ?>" class="badge badge-light"></span>
+                                            </button>
+                                            <button type="button" class="btn btn-secondary btn-block">
+                                                Promedio: <span id="promedio-<?php echo $sensor['idSensor'] ?>" class="badge badge-light"></span>
+                                            </button>
+                                        </div>
+                                        <div class="col-5 col-sm-5">
+                                            <button type="button" class="btn btn-danger btn-block">
+                                                Medición máxima: <span id="medidaMaxima-<?php echo $sensor['idSensor'] ?>" class="badge badge-light"></span>
+                                            </button>
+                                            <button type="button" class="btn btn-info btn-block">
+                                                Medición mínima: <span id="medidaMinima-<?php echo $sensor['idSensor'] ?>" class="badge badge-light"></span>
+                                            </button>
 
+                                        </div>
                                     </div>
                                 </div>
                             </div>
                         </div>
-                    </div>
                                     
                 <?php 
                 // Fin ciclo for
