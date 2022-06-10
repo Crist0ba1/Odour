@@ -1,72 +1,73 @@
-<div class="row justify-content-center">
-    <div class="col-10 ">
-        <div class="card">
-            <div class="card-header"> 
-                <div class="row">
-                    <div class="col-12">
-                        <div class="col-6 d-inline-flex">
-                            <h3> <i class="fa fa-dot-circle-o" aria-hidden="true"></i> Sensores</h3>                    
-                        </div>
-                        <div class=" col-3 my-2 d-inline-flex"></div>
-                            <button type="button" name="btnAddSensores" id="btnAddSensores" class="btn btn-secondary btn-icon-split" data-toggle="modal" data-target="#addSensores">
-                                <span class="icon text-white-50">
-                                    <i class="fa fa-plus"></i>
-                                </span>
-                                <span class="text">Agregar sensores</span>
-                            </button>
-                        </div>
-                    </div>                    
+<div class="container-fluid mb-4">
+    <div class="row justify-content-center">
+        <div class="col-10 ">
+            <div class="card">
+                <div class="card-header"> 
+                    <div class="row">
+                        <div class="col-12">
+                            <div class="col-6 d-inline-flex">
+                                <h3> <i class="fa fa-dot-circle-o" aria-hidden="true"></i> Sensores</h3>                    
+                            </div>
+                            <div class=" col-3 my-2 d-inline-flex">
+                                <button type="button" name="btnAddSensores" id="btnAddSensores" class="btn btn-secondary btn-icon-split" data-toggle="modal" data-target="#addSensores">
+                                    <span class="icon text-white-50">
+                                        <i class="fa fa-plus"></i>
+                                    </span>
+                                    <span class="text">Agregar sensores</span>
+                                </button>
+                            </div>
+                        </div>                    
+                    </div>
+                </div>        
+                <span id="mensajeSensores"></span>
+                <div class="card-body" id="tablaS" >
                 </div>
-            </div>        
-            <span id="mensajeSensores"></span>
-            <div class="card-body" id="tablaS" >
             </div>
         </div>
     </div>
 </div>
-
 
 <!-- Modal Agregar Tableros -->
 <form id="AddSensoresModal" method="post" enctype="multipart/form-data">
     <div class="modal fade" id="addSensores" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered" role="document">
             <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="exampleModalLongTitle">Ingrese datos del sensor</h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                <span aria-hidden="true">&times;</span>
-                </button>
-            </div>
-            <div class="modal-body">
-                <div class="form-group">
-                    <label>Nombre de Sensor:</label>
-                    <input type="text" class="form-control" name="nombreSensor" id="nombreSensor" required placeholder="Ejemplo: Sensor de temperatura, Dht11">
-                    <span id="nombre_sensor_error" class="text-danger">
-                </div>   
-                <div class="form-group">
-                    <label>Descripcion del eje vs tiempo:</label>
-                    <input type="text" class="form-control" name="tipoSensor" id="tipoSensor" required placeholder="Ejemplo: Temp grados C°">
-                    <span id="tipo_sensor_error" class="text-danger">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLongTitle">Ingrese datos del sensor</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                    </button>
                 </div>
-                <div class="form-group select">
-                    <label>Tablero(s):</label><br>
-					<select required name="tablerosSelect" id="tablerosSelect" class="selectpicker" title="tablero(s)" 
-						 multiple data-live-search="true">
-						<option disabled >- Tablero(s)-</option>
-						<?php foreach($tableros as $rowC):?>
-							<option  value="<?= $rowC['idTablero'];?>"><?= $rowC['idTablero'];?>. <?= $rowC['nombreTablero'];?></option>
-						<?php endforeach;?>
-						<input type="hidden" class="form-control form-control-user" id="listTablero" name="listTablero">
-					</select>										
-				</div>
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+                <div class="modal-body">
+                    <div class="form-group">
+                        <label>Nombre de Sensor:</label>
+                        <input type="text" class="form-control" name="nombreSensor" id="nombreSensor" required placeholder="Ejemplo: Sensor de temperatura, Dht11">
+                        <span id="nombre_sensor_error" class="text-danger">
+                    </div>   
+                    <div class="form-group">
+                        <label>Descripcion del eje vs tiempo:</label>
+                        <input type="text" class="form-control" name="tipoSensor" id="tipoSensor" required placeholder="Ejemplo: Temp grados C°">
+                        <span id="tipo_sensor_error" class="text-danger">
+                    </div>
+                    <div class="form-group select">
+                        <label>Tablero(s):</label><br>
+                        <select required name="tablerosSelect" id="tablerosSelect" class="selectpicker" title="tablero(s)" 
+                            multiple data-live-search="true">
+                            <option disabled >- Tablero(s)-</option>
+                            <?php foreach($tableros as $rowC):?>
+                                <option  value="<?= $rowC['idTablero'];?>"><?= $rowC['idTablero'];?>. <?= $rowC['nombreTablero'];?></option>
+                            <?php endforeach;?>
+                            <input type="hidden" class="form-control form-control-user" id="listTablero" name="listTablero">
+                        </select>										
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
 
-                <input type="hidden" name ="hiden_idS" id="hiden_idS"/>
-                <input type="hidden" name ="actionS" id="actionS" value="add" />
-                <input type="submit" name ="submit" id="submit_buttonS" class="btn btn-primary" value="Agregar" />
-            </div>
+                    <input type="hidden" name ="hiden_idS" id="hiden_idS"/>
+                    <input type="hidden" name ="actionS" id="actionS" value="add" />
+                    <input type="submit" name ="submit" id="submit_buttonS" class="btn btn-primary" value="Agregar" />
+                </div>
             </div>
         </div>
     </div>
