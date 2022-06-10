@@ -69,6 +69,7 @@ $routes->post('/deleteTablero', 'TableroController::deleteTablero');
 $routes->post('/editTablero', 'TableroController::editTablero');
 $routes->get('/tablaTableros', 'TableroController::tablaTableros');
 $routes->get('/usuariosTableros/(:any)', 'TableroController::usuariosTableros/$1');
+$routes->post('/getDataSensores', 'TableroController::getDataSensores');
 
 /* Gestion de sensores*/
 $routes->get('/gestionSensores', 'SensoresController::gestionSensores');//Por si se quiere cargar por ceparado

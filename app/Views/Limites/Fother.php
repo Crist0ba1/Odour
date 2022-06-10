@@ -120,9 +120,9 @@
 
             worker.onmessage = function(e){
                 if(e.data.result == 1){
-                    alert('Lo logro');
+                    // alert('Lo logro');
                 }else{
-                    alert('No lo logro');
+                    // alert('No lo logro');
                 }
             }
 

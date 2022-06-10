@@ -140,45 +140,53 @@
             );
 
             $.ajax({
-                url: "<?php echo base_url('/initChart'); ?>",
-                dataType: "json",
-                method: "GET",
-                success: function(data) {
-                    const valores = [
-                        ['fecha', 'valor'],
-                    ];
-                    for (x of data) {
-                        let date = new Date(x.fecha);
-                        let result = parseFloat(x.valor);
-                        const aux = [date, result];
-                        valores.push(aux);
-                    }
-                    var data = google.visualization.arrayToDataTable(valores);
-                    var options = {
-                        title: 'Gráfico de linea de los ultimos 10 datos ingresados',
-                        subtitle: 'Los datos son ingresados cada 5 segundos',
-                        curveType: 'function',
-                        legend: {
-                            position: 'bottom'
-                        },
-                        series: {
-                            0: { color: '#00FF00' },
-                        },
-                        // Colors only the chart area, with opacity
-                        chartArea: {
-                            backgroundColor: {
-                            fill: '#1F1F1F',
-                            fillOpacity: 1
-                            },
-                        },
-                    }
+                type: "POST",
+                url: "<?php echo base_url('/getDataSensores'); ?>",
+                data: {tablero: $( "#tableroSelect" ).val()},
+                success: function(response) {
 
                     graficos.forEach(grafico => {
-                        console.log(grafico.getAttribute('value'));
+
+                        const valores = [
+                            ['fecha', 'valor'],
+                        ];
+
+                        if (typeof response[grafico.getAttribute('value').toString()] !== 'undefined') {
+                            response[grafico.getAttribute('value').toString()].forEach(input => {
+                                let date = new Date(input['fecha']);
+                                let result = parseFloat(input['valor']);
+                                const aux = [date, result];
+                                valores.push(aux);
+                            });
+                        } else {
+                            valores.push(['',0]);
+                        }
+
+                        var data = google.visualization.arrayToDataTable(valores);
+                        var options = {
+                            title: 'Gráfico de linea de los ultimos 10 datos ingresados',
+                            subtitle: 'Los datos son ingresados cada 5 segundos',
+                            curveType: 'function',
+                            legend: {
+                                position: 'bottom'
+                            },
+                            series: {
+                                0: { color: '#00FF00' },
+                            },
+                            // Colors only the chart area, with opacity
+                            chartArea: {
+                                backgroundColor: {
+                                fill: '#1F1F1F',
+                                fillOpacity: 1
+                                },
+                            },
+                        }
+
                         var chart = new google.visualization.LineChart(document.getElementById('GoogleLineChart-'+grafico.getAttribute('value')));
                         chart.draw(data, options);
                     });
-                }
+                },
+                dataType: "json",
             });
             $.ajax({
                 url: "<?php echo base_url('/inputs'); ?>",
@@ -197,12 +205,10 @@
         setInterval(drawLineChart, 10000);
 
         $('#tableroSelect').on('change', function() {
-        // alert( this.value );
             $.post(
                     "<?php echo base_url('/Tablero/Ver'); ?>",
                     {tablero: this.value},
                     function(data) {
-                        // console.log(data)
                         $('#sensores').html(data);
                         drawLineChart();
                     }

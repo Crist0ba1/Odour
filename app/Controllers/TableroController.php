@@ -7,6 +7,7 @@ use App\Models\TableroModel;
 use monken\TablesIgniter;
 use App\Models\UsuariosModel;
 use App\Models\UsuarioTableroModel;
+use App\Models\InputModel;
 
 use App\Models\SensoresModel;
 use App\Models\TableroSensorModel;
@@ -182,6 +183,51 @@ class TableroController extends BaseController
         $cadena = rtrim($cadena);
         $array = explode(" ",$cadena);
         return $array;
+    }
+
+    public function getDataSensores(){
+
+        if( session()->get('isLoggedIn') ){
+            
+            $idTablero = $this->request->getVar('tablero');
+            // $fechaInicio = $this->request->getVar('tablero');
+            // $fechaTermino = $this->request->getVar('tablero');
+
+            $tableroSensor = new TableroSensorModel();
+            $idSensoresTablero = $tableroSensor->where('refTablero', $idTablero)->findAll();
+
+            if (!empty($idSensoresTablero)){
+
+                // Se limpia la respuesta en $idSensoresTablero[] para la clausula ->whereIn() del modelo SensoresModel
+                $sensoresTableroLimpiado = [];
+                foreach ($idSensoresTablero as $sensor){
+                    $sensoresTableroLimpiado[] = $sensor['refSensor'];
+                }
+
+                $response = array();
+            
+                $inputModel = new InputModel();
+                $inputs = $inputModel->where('refTablero', $idTablero)->orderBy('refSensor', 'ASC')->orderBy('fecha', 'ASC')->findAll();
+
+                foreach($sensoresTableroLimpiado as $sensor){
+                    foreach($inputs as $input){
+                        if ($input['refSensor']==$sensor){
+                            $response[$sensor][] = $input;
+                        }                        
+                    }
+                }
+                
+                return json_encode($response);
+
+
+            } else {
+
+            }
+
+        } else {
+            return redirect()->to('/');
+        } 
+
     }
 
     public function getTablerosHTML(){
