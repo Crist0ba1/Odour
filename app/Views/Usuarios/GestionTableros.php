@@ -1,22 +1,18 @@
 <div class="container-fluid mb-4">
     <div class="row justify-content-center">
-        <div class="col-10 ">
+        <div class="col-10">
             <div class="card">
                 <div class="card-header"> 
                     <div class="row">
-                        <div class="col-12">
-                            <div class="col-6 d-inline-flex">
-                                <h3> <i class="fa fa-table" aria-hidden="true"></i> Tableros</h3>                    
-                            </div>
-                            <div class=" col-3 my-2 d-inline-flex">
-                                <button type="button" name="btnAddTableros" id="btnAddTableros" class="btn btn-secondary btn-icon-split" data-toggle="modal" data-target="#addTableros">
-                                    <span class="icon text-white-50">
-                                        <i class="fa fa-plus"></i>
-                                    </span>
-                                    <span class="text">Agregar Tableros</span>
-                                </button>
-                            </div>
-                        </div>                    
+                        <div class="col-12 d-inline-flex">
+                            <h3> <i class="fa fa-table" aria-hidden="true"></i> Tableros</h3>         
+                            <button type="button" name="btnAddTableros" id="btnAddTableros" class="btn btn-secondary btn-icon-split ml-auto" data-toggle="modal" data-target="#addTableros">
+                                <span class="icon text-white-50">
+                                    <i class="fa fa-plus"></i>
+                                </span>
+                                <span class="text">Agregar Tableros</span>
+                            </button>
+                        </div>                 
                     </div>
                 </div>        
                 <span id="mensajeTableros"></span>

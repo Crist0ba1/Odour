@@ -1,22 +1,18 @@
 <div class="container-fluid mb-4">   
-   <div class="row justify-content-center">
+    <div class="row justify-content-center">
         <div class="col-10">
             <div class="card">
                 <div class="card-header"> 
                     <div class="row">
-                        <div class="col-12">
-                            <div class="col-6 d-inline-flex">
-                                <h3> <i class="fa fa-address-book" aria-hidden="true"></i> Usuarios </h3>                    
-                            </div>
-                            <div class=" col-3 my-2 d-inline-flex">
-                                <button type="button" name="btnAddUsuario" id="btnAddUsuario" class="btn btn-secondary btn-icon-split" data-toggle="modal" data-target="#addUsuario">
-                                    <span class="icon text-white-50">
-                                        <i class="fa fa-plus"></i>
-                                    </span>
-                                    <span class="text">Agregar Usuario</span>
-                                </button>
-                            </div>
-                        </div>                    
+                        <div class="col-12 d-inline-flex">
+                            <h3> <i class="fa fa-address-book" aria-hidden="true"></i> Usuarios </h3>        
+                            <button type="button" name="btnAddUsuario" id="btnAddUsuario" class="btn btn-secondary btn-icon-split ml-auto" data-toggle="modal" data-target="#addUsuario">
+                                <span class="icon text-white-50">
+                                    <i class="fa fa-plus"></i>
+                                </span>
+                                <span class="text">Agregar Usuario</span>
+                            </button>
+                        </div>                
                     </div>
                 </div>        
                 <span id="mensajeUsuario"></span>
