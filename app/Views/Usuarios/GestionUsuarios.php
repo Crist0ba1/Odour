@@ -42,7 +42,7 @@
                 </div>   
                 <div class="form-group">
                     <label>Correo:</label>
-                    <input type="email" class="form-control" name="emailUsuario" id="emailUsuario" placeholder="correo@ejempplo.com">
+                    <input type="email" class="form-control" name="emailUsuario" id="emailUsuario" placeholder="correo@ejemplo.com">
                     <span id="correo_Usuario_error" class="text-danger">
                 </div>
                 <div class="form-group">
@@ -137,7 +137,7 @@
                 
                 $('#AddUsuarioModal').on('submit',function(event){
                     event.preventDefault();
-
+                    console.log('Submit de usuarios');
                     if($('#action').val() == 'edit'){
                         $.ajax ({
                             type: "POST",
@@ -175,44 +175,56 @@
                         })
                     }
                     else{
-                        const form = document.getElementById('AddUsuarioModal');
-                        var formData = new FormData(form);
-                        formData.append('nombreUsuario', $('#nombreUsuario').val());
-                        formData.append('emailUsuario', $('#emailUsuario').val());
-                        formData.append('tipo', $('#tipo').val());
-                        formData.append('telefono', $('#telefono').val());
-                        //formData.append('imagenFile', imagenFile.files[0]);
-                        $.ajax ({
-                            type: "POST",
-                            url: "<?php echo base_url('/addUsuario')?>",
-                            data: formData,
-                            beforSend: function(){
-                                $('#submit_buttonGU').val('Espere...');
-                                $('#submit_buttonGU').attr('disabled','disabled');
-                            },
-                            success: function(data){
-                                $('#submit_buttonGU').val('Agregar');
-                                $('#submit_buttonGU').attr('disabled',false);
-                                if(data.error == "yes"){
-                                    $('#nombre_Usuario_error').text(data.nombre_Usuario_error);
-                                    $('#correo_Usuario_error').text(data.correo_Usuario_error);
-                                    $('#tipo_Usuario_error').text(data.tipo_Usuario_error);
-                                    $('#imagen_Usuario_error').text(data.imagen_Usuario_error);
-                                    $('#telefono_Usuario_error').text(data.telefono_Usuario_error);
-                                }
-                                else{
-                                    $('#addUsuario').modal("hide");
-                                    $('#mensajeUsuario').html(data.message);
-                                    $('#tablaUsuarios').DataTable().ajax.reload();
+                        console.log('Entra en añadir');
+                        try {
+                            // const form = document.getElementById('AddUsuarioModal');
+                            var formData = new FormData(this);
+                            // formData.append('nombreUsuario', $('#nombreUsuario').val());
+                            // formData.append('emailUsuario', $('#emailUsuario').val());
+                            // formData.append('imagen', $('#imagenFile').val());
+                            // formData.append('tipo', $('#tipo').val());
+                            // formData.append('telefono', $('#telefono').val());
+                            //formData.append('imagenFile', imagenFile.files[0]);
+                            $.ajax ({
+                                type: "POST",
+                                url: "<?php echo base_url('/addUsuario')?>",
+                                data: formData,
+                                contentType: false,
+                                cache: false,
+                                processData: false,
+                                beforSend: function(){
+                                    $('#submit_buttonGU').val('Espere...');
+                                    $('#submit_buttonGU').attr('disabled','disabled');
+                                },
+                                success: function(data){
+                                    console.log(data);
+                                    $('#submit_buttonGU').val('Agregar');
+                                    $('#submit_buttonGU').attr('disabled',false);
+                                    if(data.error == "yes"){
+                                        $('#nombre_Usuario_error').text(data.nombre_Usuario_error);
+                                        $('#correo_Usuario_error').text(data.correo_Usuario_error);
+                                        $('#tipo_Usuario_error').text(data.tipo_Usuario_error);
+                                        $('#imagen_Usuario_error').text(data.imagen_Usuario_error);
+                                        $('#telefono_Usuario_error').text(data.telefono_Usuario_error);
+                                    }
+                                    else{
+                                        $('#addUsuario').modal("hide");
+                                        $('#mensajeUsuario').html(data.message);
+                                        $('#tablaUsuarios').DataTable().ajax.reload();
 
-                                    setTimeout(() => {
-                                        $('#mensajeUsuario').html('');
-                                    }, 5000);
+                                        setTimeout(() => {
+                                            $('#mensajeUsuario').html('');
+                                        }, 5000);
+                                    }
                                 }
-                            }
-
-                        })
+                            })
+                        } catch (error) {
+                            console.log('Error en envio de form añadir usuario: '+error);
+                        }
+                        
                     }
+
+                    return false;
                 });
 
                 $(document).on('click', '.editUsuario',function(){

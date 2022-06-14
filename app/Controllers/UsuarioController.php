@@ -8,6 +8,7 @@ use App\Models\TablaModel;
 use App\Models\TableroModel;
 use App\Models\InputModel;
 use App\Models\UsuarioTableroModel;
+use CodeIgniter\Files\File;
 
 use monken\TablesIgniter;
 class UsuarioController extends BaseController
@@ -48,7 +49,7 @@ class UsuarioController extends BaseController
                 'nombreUsuario' => 'required|min_length[2]',
                 'emailUsuario' => 'required|valid_email|is_unique[usuarios.Correo]|min_length[2]',
                 'tipo' => 'required',
-                'imagen' => 'uploaded[imagen]|ext_in[imagen,jpg,jpeg,gif,png]',
+                'imagenFile' => 'uploaded[imagenFile]|is_image[imagenFile]|max_size[imagenFile, 4096]|mime_in[imagenFile,image/jpg,image/jpeg,image/png,image/webp]',
                 'telefono' => 'required|min_length[9]|max_length[12]', //ejemplo de telefono de casa 752 XXX XXX
             ]);
             if(!$error){
@@ -71,14 +72,11 @@ class UsuarioController extends BaseController
                 }
             }
             else{
-                $success = "yes";                   
-                 /* Analicis para la imagen */
-                 $imageFile1 = $this->request->getFile('imagen');
-                 $img = $this->imagen($id, $imageFile1);
-                 if($img==0){
-                     $img = 'No disponible';
-                 }
+                                   
+                 
+                 
                 if($this->request->getVar('action') == 'add'){
+
                     $UsuarioModel = new UsuariosModel();
                     $UsuarioModel->insert([
                         'Nombre' =>$this->request->getVar('nombreUsuario'),
@@ -86,9 +84,28 @@ class UsuarioController extends BaseController
                         'clave' =>$this->request->getVar('emailUsuario'),
                         'Tipo' =>$this->request->getVar('tipo'),
                         'telefono' =>$this->request->getVar('telefono'),
-                        'imagen' =>$img
                     ]);
+
+                    $insert_id = $UsuarioModel->getInsertID();
+                    $imageName = 'empresa-'.$insert_id;
+                    $imageNameHash = hash('md5', $imageName);
+                    echo "Hash name: ".$imageNameHash;
+
+                    /* Analisis para la imagen */
+                    $img = $this->request->getFile('imagenFile');
+                    if (!$img->hasMoved()) {
+
+                        $filepath = $img->move(ROOTPATH.'\\public\\images\\empresa\\', $imageNameHash.'.jpg');
+                        echo "Filepath: ".$filepath;
+                        $data = ['uploaded_flleinfo' => new File($filepath)];
+            
+                        $success = "yes";
+                    } else {
+                        $message = "Error creación de imagen.";
+                    }
+
                     $message = '<div class="alert alert-success"> Usuario creado con exito </div>';
+                    
                 }
                 if($this->request->getVar('action') == 'edit'){
                     
