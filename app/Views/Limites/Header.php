@@ -73,13 +73,14 @@
 
 <?php elseif(session()->get('isLoggedIn') && session()->get('tipo') == 1): ?>
   <div class="collapse navbar-collapse" id="navbarSupportedContent">
-    <ul class="navbar-nav mr-auto">
-      <li class="nav-item active">
-        <a class="nav-link" href="#">Home <span class="sr-only">(current)</span></a>
+    <ul class="navbar-nav ml-auto">
+
+      <li class="nav-item <?php if(isset($menu)){if($menu=="inicio"){echo "active";}} ?> mr-3">
+        <a class="nav-link" href="<?php echo base_url('inicio')?>">Inicio<span class="sr-only"></span></a>
       </li>
-      <li class="nav-item dropdown">
+      <li class="nav-item dropdown mr-3">
         <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-          <?= session()->get('nombre') ?>
+        <i class="fa fa-user-circle"></i>&nbsp;<?= session()->get('nombre') ?>
         </a>
         <div class="dropdown-menu" aria-labelledby="navbarDropdown">
           <a class="dropdown-item" href="<?php echo base_url('/logout');?>">Cerrar sesión</a>
@@ -87,7 +88,7 @@
       </li>
     </ul>
   </div>
-  <a class="navbar-brand ml-auto mr-3" href="#">
+  <a class="navbar-brand ml-auto mr-5" href="#">
     <img src="<?php echo base_url('/assets/img/logoEmpresa.png')?>" class="img-fluid" style="max-width:80px">
   </a>
 

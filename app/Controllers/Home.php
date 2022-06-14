@@ -58,8 +58,8 @@ class Home extends BaseController
                         if($user['Tipo']==0){//admin
                             return redirect()->to('/inicio');
                         }
-                        elseif($user['Tipo']==1){//Medico
-                            return redirect()->to('/dashbord');
+                        elseif($user['Tipo']==1){//viewer
+                            return redirect()->to('/inicio');
                         }
                         else{
                             echo "No deberias estar aqui";
