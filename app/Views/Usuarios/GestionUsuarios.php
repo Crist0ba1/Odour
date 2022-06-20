@@ -100,8 +100,30 @@
 
 <script type="text/javascript">
            
-           $(document).ready(function() {    
-                $(document).on('click', '.verTableros',function(){
+           $(document).ready(function() {  
+            
+                function cargarData(){
+                    var id = $(this).data('id');
+                    
+                    $.ajax({
+                        type: "GET",
+                        url: "<?php echo base_url('/tablerosDeUsuario')?>/"+id,
+                        success: function(data) {
+                            // $('#verTablerosModal').modal("show"); 
+                            //Cargamos finalmente el contenido deseado
+                            setTimeout(function () {
+                                $('#mostrarTableros').fadeIn(1000).html(data);
+                            }, 1500);
+                            
+                        },
+                        error : function(xhr, status) {
+                            alert('Disculpe, existió un problema');
+                        }
+                    });
+                    
+                }
+
+                $(document).on('click', '.verTableros',function () {
                     var id = $(this).data('id');
                     
                     $.ajax({
@@ -121,6 +143,7 @@
                     });
                     
                 });
+                
                 //Añadimos la imagen de carga en el contenedor
                 $('#tablaUsuario').html('<div class="d-flex justify-content-center"><img src="https://c.tenor.com/28DFFVtvNqYAAAAC/loading.gif" width="125" /><br/>Cargado tablas...</div>');
                 
@@ -137,26 +160,31 @@
                 
                 $('#AddUsuarioModal').on('submit',function(event){
                     event.preventDefault();
-                    console.log('Submit de usuarios');
                     if($('#action').val() == 'edit'){
+                        var formData = new FormData(this);
                         $.ajax ({
                             type: "POST",
                             url: "<?php echo base_url('/editarUsuario')?>",
-                            data: $(this).serialize(),
-                            enctype: 'multipart/form-data',
+                            data: formData,
+                            contentType: false,
+                            cache: false,
+                            processData: false,
                             beforSend: function(){
                                 $('#submit_buttonGU').val('Espere...');
                                 $('#submit_buttonGU').attr('disabled','disabled');
                             },
                             success: function(data){
+                                data = JSON.parse(data);
                                 if(data.error == "yes"){
+                                    console.log('Error en edicion.');
                                     $('#nombre_Usuario_error').text(data.nombre_Usuario_error);
                                     $('#correo_Usuario_error').text(data.correo_Usuario_error);
                                     $('#tipo_Usuario_error').text(data.tipo_Usuario_error);
                                     $('#imagen_Usuario_error').text(data.imagen_Usuario_error);
                                     $('#telefono_Usuario_error').text(data.telefono_Usuario_error);
                                 }
-                                if(data.success=="yes"){                                    
+                                if(data.success=="yes"){     
+                                    console.log('Edicion satisfactoria.');                               
                                     $('#submit_buttonGU').val('Agregar');
                                     $('#submit_buttonGU').attr('disabled',false);
                                     $('#emailUsuario').attr('readonly',false);
@@ -164,12 +192,14 @@
                                     $('#mensajeUsuario').html(data.message);
                                     $('#tablaUsuarios').DataTable().ajax.reload();
 
+                                    // Refresh
+                                    cargarData();
 
                                     setTimeout(() => {
-                                        $('#mensajeSensores').html('');
+                                            $('#mensajeUsuario').html('');
                                     }, 5000);
                                 }
-                                Console.log("PUTA LA WEA");
+                                console.log("Fin edicion.");
                             }
 
                         })
@@ -177,14 +207,7 @@
                     else{
                         console.log('Entra en añadir');
                         try {
-                            // const form = document.getElementById('AddUsuarioModal');
                             var formData = new FormData(this);
-                            // formData.append('nombreUsuario', $('#nombreUsuario').val());
-                            // formData.append('emailUsuario', $('#emailUsuario').val());
-                            // formData.append('imagen', $('#imagenFile').val());
-                            // formData.append('tipo', $('#tipo').val());
-                            // formData.append('telefono', $('#telefono').val());
-                            //formData.append('imagenFile', imagenFile.files[0]);
                             $.ajax ({
                                 type: "POST",
                                 url: "<?php echo base_url('/addUsuario')?>",
@@ -197,7 +220,7 @@
                                     $('#submit_buttonGU').attr('disabled','disabled');
                                 },
                                 success: function(data){
-                                    console.log(data);
+                                    data = JSON.parse(data);
                                     $('#submit_buttonGU').val('Agregar');
                                     $('#submit_buttonGU').attr('disabled',false);
                                     if(data.error == "yes"){
@@ -207,10 +230,13 @@
                                         $('#imagen_Usuario_error').text(data.imagen_Usuario_error);
                                         $('#telefono_Usuario_error').text(data.telefono_Usuario_error);
                                     }
-                                    else{
+                                    if(data.success=="yes"){
                                         $('#addUsuario').modal("hide");
                                         $('#mensajeUsuario').html(data.message);
                                         $('#tablaUsuarios').DataTable().ajax.reload();
+
+                                        // Refresh
+                                        cargarData();
 
                                         setTimeout(() => {
                                             $('#mensajeUsuario').html('');
@@ -280,6 +306,7 @@
                     }
                        
                 });
+
                 $.ajax({
                     type: "GET",
                     url: "<?php echo base_url('/tablaUsuario')?>",

@@ -72,11 +72,10 @@ class UsuarioController extends BaseController
                 }
             }
             else{
-                                   
-                 
-                 
+
                 if($this->request->getVar('action') == 'add'){
 
+                    // Instancia de modelo Usuario e insertado en la tabla
                     $UsuarioModel = new UsuariosModel();
                     $UsuarioModel->insert([
                         'Nombre' =>$this->request->getVar('nombreUsuario'),
@@ -86,42 +85,74 @@ class UsuarioController extends BaseController
                         'telefono' =>$this->request->getVar('telefono'),
                     ]);
 
+                    // Captura del id de usuario insertado y hashe del nombre de la imagen
                     $insert_id = $UsuarioModel->getInsertID();
+                    // Metodo para generar el nombre de la imagen hasheado
                     $imageName = 'empresa-'.$insert_id;
                     $imageNameHash = hash('md5', $imageName);
-                    echo "Hash name: ".$imageNameHash;
 
-                    /* Analisis para la imagen */
+                    // Se obtiene la imagen de la request HTTP
                     $img = $this->request->getFile('imagenFile');
+                    // Se obtiene extension de la imagen
+                    $imgExtension = $img->guessExtension();
                     if (!$img->hasMoved()) {
-
-                        $filepath = $img->move(ROOTPATH.'\\public\\images\\empresa\\', $imageNameHash.'.jpg');
-                        echo "Filepath: ".$filepath;
+                        // Nombre de imagen hasheado y con extension
+                        $hashedImgName = $imageNameHash.".".$imgExtension;
+                        // Movemos la imagen a la ubicacion deseada con el nombre hasheado
+                        $filepath = $img->move(ROOTPATH.'\\public\\images\\empresa\\', $hashedImgName, true);
                         $data = ['uploaded_flleinfo' => new File($filepath)];
-            
+                        // Actualizacion del campo imagen del usuario en back
+                        $imageData = [
+                            'imagen' => $hashedImgName
+                        ];
+                        $UsuarioModel->update($insert_id, $imageData);
                         $success = "yes";
+
                     } else {
-                        $message = "Error creación de imagen.";
+                        $message = "Error en subida de imagen.";
                     }
 
                     $message = '<div class="alert alert-success"> Usuario creado con exito </div>';
                     
                 }
+                // * ELIMINAR EN CASO DE NO OCUPARSE *
                 if($this->request->getVar('action') == 'edit'){
                     
                     $UsuarioModel = new UsuariosModel();
                     $id = $this->request->getVar('hiden_id');
 
+                    // Metodo para generar el nombre de la imagen hasheado 
+                    $imageName = 'empresa-'.$insert_id;
+                    $imageNameHash = hash('md5', $imageName);
+
+                    // Se obtiene la imagen de la request HTTP
+                    $img = $this->request->getFile('imagenFile');
+                    // Se obtiene extension de la imagen
+                    $imgExtension = $img->guessExtension();
+                    // Se declara el nombre de la imagen para el update
+                    $hashedImgName = '';
+                    if (!$img->hasMoved()) {
+                        // Nombre de imagen hasheado y con extension
+                        $hashedImgName = $imageNameHash.".".$imgExtension;
+                        // Movemos la imagen a la ubicacion deseada con el nombre hasheado
+                        $filepath = $img->move(ROOTPATH.'\\public\\images\\empresa\\', $hashedImgName);
+                        $data = ['uploaded_flleinfo' => new File($filepath)];
+                        $success = "yes";
+
+                    } else {
+                        $message = "Error en subida de imagen.";
+                    }
 
                     $data = [
                         'Nombre' => $this->request->getVar('nombreUsuario'),
-                        //'Correo' =>$this->request->getVar('emailUsuario'),
+                        'Correo' =>$this->request->getVar('emailUsuario'),
                         'Tipo' =>$this->request->getVar('tipo'),
                         'telefono' =>$this->request->getVar('telefono'),
-                        /*'imagen' =>$this->request->getVar('imagen')*/
+                        'imagen' =>$hashedImgName
                     ];
+
                     $UsuarioModel->update($id, $data);
-                    $message = '<div class="alert alert-info"> Usuario editado con exito </div>';
+                    // $message = '<div class="alert alert-info"> Usuario editado con exito </div>';
                 }
 
             }
@@ -154,7 +185,7 @@ class UsuarioController extends BaseController
             $error = $this->validate([
                 'nombreUsuario' => 'required|min_length[2]',
                 'tipo' => 'required|max_length[2]',
-                //'imagen' => 'uploaded[imagen]'.'|is_image[imagen]'. '|mime_in[imagen,image/jpg,image/jpeg,image/gif,image/png,image/webp]',
+                'imagenFile' => 'uploaded[imagenFile]|is_image[imagenFile]|max_size[imagenFile, 4096]|mime_in[imagenFile,image/jpg,image/jpeg,image/png,image/webp]',
                 'telefono' => 'required|min_length[9]|max_length[12]', //ejemplo de telefono de casa 752 XXX XXX
             ]);
             if(!$error){
@@ -163,8 +194,8 @@ class UsuarioController extends BaseController
                 if($validation->getError('nombreUsuario')){
                     $nombre_Usuario_error = $validation->getError('nombreUsuario');
                 }
-                if($validation->getError('imagen')){
-                    $imagen_Usuario_error = $validation->getError('imagen');
+                if($validation->getError('imagenFile')){
+                    $imagen_Usuario_error = $validation->getError('imagenFile');
                 }
                 if($validation->getError('tipo')){
                     $tipo_Usuario_error = $validation->getError('tipo');
@@ -181,14 +212,37 @@ class UsuarioController extends BaseController
                     $UsuarioModel = new UsuariosModel();
                     $id = $this->request->getVar('hiden_id');
 
+                    // Metodo para generar el nombre de la imagen hasheado 
+                    $imageName = 'empresa-'.$id;
+                    $imageNameHash = hash('md5', $imageName);
+
+                    // Se obtiene la imagen de la request HTTP
+                    $img = $this->request->getFile('imagenFile');
+                    // Se obtiene extension de la imagen
+                    $imgExtension = $img->guessExtension();
+                    // Se declara el nombre de la imagen para el update
+                    $hashedImgName = '';
+                    if (!$img->hasMoved()) {
+                        // Nombre de imagen hasheado y con extension
+                        $hashedImgName = $imageNameHash.".".$imgExtension;
+                        // Movemos la imagen a la ubicacion deseada con el nombre hasheado
+                        $filepath = $img->move(ROOTPATH.'\\public\\images\\empresa\\', $hashedImgName, true);
+                        $data = ['uploaded_flleinfo' => new File($filepath)];
+                        $success = "yes";
+
+                    } else {
+                        $message = "Error en subida de imagen.";
+                    }
+
                     $data = [
                         'Nombre' => $this->request->getVar('nombreUsuario'),
                         'Tipo' =>$this->request->getVar('tipo'),
                         'telefono' =>$this->request->getVar('telefono'),
-                        'imagen' =>"Aqui llego"
+                        'imagen' =>$hashedImgName
                     ];
                     $UsuarioModel->update($id, $data);
                     $message = '<div class="alert alert-info"> Usuario editado con exito </div>';
+
                 }
 
             }
