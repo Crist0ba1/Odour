@@ -85,7 +85,7 @@
       <li class="nav-item <?php if(isset($menu)){if($menu=="inicio"){echo "active";}} ?> mr-3">
         <a class="nav-link" href="<?php echo base_url('inicio')?>">Inicio<span class="sr-only"></span></a>
       </li>
-      <li class="nav-item dropdown mr-3">
+      <li class="nav-item dropdown <?php if (isset($imagenEmpresa)){echo "mr-3";} else {echo "mr-5";}?>">
         <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
         <i class="fa fa-user-circle"></i>&nbsp;<?= session()->get('nombre') ?>
         </a>
@@ -95,9 +95,18 @@
       </li>
     </ul>
   </div>
-  <a class="navbar-brand ml-auto mr-5" href="#">
-    <img src="<?php echo base_url('/assets/img/logoEmpresa.png')?>" class="img-fluid" style="max-width:80px">
-  </a>
+  <?php if (isset($imagenEmpresa)){
+      // nota arreglar mr-3 a mr-5 de elemento superior si no existe imagen
+      // Se inserta imagen
+  ?>
+
+    <a class="navbar-brand ml-auto mr-5" href="#">
+      <img src="<?php echo base_url('/images/empresa/'.$imagenEmpresa);?>" class="img-fluid" style="max-width:90px">
+    </a>
+
+  <?php
+    }
+  ?>
 
 <?php else:?>  
       <!--  

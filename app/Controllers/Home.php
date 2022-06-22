@@ -81,21 +81,6 @@ class Home extends BaseController
         }		
             
     }
-    public function index(){
-        // $modelC = new ComiteModel();
-        // $data['numComites'] = $modelC->countAllResults();
-        // $modelP = new PersonasModel();
-        // $data['numPersonas'] = $modelP->countAllResults();
-        // if( session()->get('isLoggedIn')){
-        //     $data['nombre'] = session()->get('nombre');
-        // }else{
-        //     $data['nombre'] = "No cargo el nombre ql";
-        // }
-        // echo view('Header',$data);    
-        // //echo view('Inicio/TablasInicio');
-		// echo view('footer');
-        
-    }
     private function setUserSession($user){
 		$data =[
 			'id' => $user['idUsuario'],
@@ -133,6 +118,14 @@ class Home extends BaseController
         if( session()->get('isLoggedIn') ){
 
             $idUsuario = session()->get('id');
+
+            $userModel = new UsuariosModel();
+            $userImageEmpresa = $userModel->select('imagen')->where('idUsuario', $idUsuario)->first();
+            if (isset($userImageEmpresa['imagen'])){
+                if ($userImageEmpresa['imagen']){
+                    $data['imagenEmpresa'] = $userImageEmpresa['imagen'];
+                }
+            }
 
             // Se obtiene la referencia los tableros de un usuario
             $tableroUsuarioModel = new UsuarioTableroModel();
