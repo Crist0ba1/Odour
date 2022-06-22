@@ -145,7 +145,7 @@
                 });
                 
                 //Añadimos la imagen de carga en el contenedor
-                $('#tablaUsuario').html('<div class="d-flex justify-content-center"><img src="https://c.tenor.com/28DFFVtvNqYAAAAC/loading.gif" width="125" /><br/>Cargado tablas...</div>');
+                $('#tablaUsuario').html('<div class="d-flex justify-content-center"><img src="<?php echo base_url('/assets/img/loader.gif')?>" width="7%" /></div>');
                 
                 $('#btnAddUsuario').click(function(){
                     $('#AddUsuarioModal')[0].reset();

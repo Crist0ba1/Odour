@@ -10,7 +10,7 @@
                                 <span class="icon text-white-50">
                                     <i class="fa fa-plus"></i>
                                 </span>
-                                <span class="text">Agregar Tableros</span>
+                                <span class="text">Agregar Tablero</span>
                             </button>
                         </div>                 
                     </div>
@@ -143,7 +143,7 @@
                     $('#verSensoresModal').modal("show");  
                 });
                 //Añadimos la imagen de carga en el contenedor
-                $('#tablaTablero').html('<div class="d-flex justify-content-center"><img src="https://c.tenor.com/28DFFVtvNqYAAAAC/loading.gif" width="125" /><br/>Cargado tablas...</div>');
+                $('#tablaTablero').html('<div class="d-flex justify-content-center"><img src="<?php echo base_url('/assets/img/loader.gif')?>" width="7%" /></div>');
                 
                 $('#btnAddTableros').click(function(){
                     $('#AddTablerosModal')[0].reset();

@@ -10,7 +10,7 @@
                                 <span class="icon text-white-50">
                                     <i class="fa fa-plus"></i>
                                 </span>
-                                <span class="text">Agregar sensores</span>
+                                <span class="text">Agregar Sensor</span>
                             </button>
                         </div>              
                     </div>
@@ -72,7 +72,7 @@
 <script type="text/javascript">          
            $(document).ready(function() {    
                 //Añadimos la imagen de carga en el contenedor
-                $('#tablaS').html('<div class="d-flex justify-content-center"><img src="https://c.tenor.com/28DFFVtvNqYAAAAC/loading.gif" width="125" /><br/>Cargado tablas...</div>');
+                $('#tablaS').html('<div class="d-flex justify-content-center"><img src="<?php echo base_url('/assets/img/loader.gif')?>" width="7%" /></div>');
                 
                 $('#btnAddSensores').click(function(){
                     $('#AddSensoresModal')[0].reset();

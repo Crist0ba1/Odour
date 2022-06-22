@@ -3,7 +3,7 @@
         <table id="tablaTableros" class="table table-striped table-bordered ">
             <thead>
                 <tr>
-                    <th>idTablero</th>
+                    <th>Id</th>
                     <th>Nombre</th>
                     <th>Sector</th>
                     <th>Acciones</th>
@@ -18,6 +18,9 @@
     
     $(document).ready(function(){
         $('#tablaTableros').dataTable({
+            "language": {
+               "url": "<?php echo base_url('/assets/datatables/es-ES.json')?>"
+            },
             "responsive": true,
             "order":[],
             "serverSide":true,

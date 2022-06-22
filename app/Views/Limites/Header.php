@@ -1,20 +1,22 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+
 	<meta charset="UTF-8">
+
 	<title>Odour</title>
 
-	<meta name="description" content="TTC.">
+	<meta name="description" content="Odour Solutions">
 
   <link rel="icon" href="<?php echo base_url('/assets/img/logo.png')?>">
 
   <link rel="shortcut icon" type="image/x-icon" href="<?php echo base_url('/assets/img/favicon.png')?>" >
 
-  <!-- bootstrap css -->
   <link rel="stylesheet" href="<?php echo base_url('/css/custom.css')?>">  
 
   <link rel="stylesheet" href="<?php echo base_url('/css/style.css')?>">
 
+  <!-- bootstrap css -->
   <link rel="stylesheet" href="<?php echo base_url('/css/bootstrap.min.css')?>">
 
   <!-- JS, Popper.js, and jQuery -->
@@ -25,8 +27,16 @@
   <script src="https://kit.fontawesome.com/c818a46c29.js" crossorigin="anonymous"></script>
   
   <!-- DataTables -->
-  <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.11.5/css/jquery.dataTables.min.css">
-  <script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.11.4/js/jquery.dataTables.min.js"></script>
+
+  <link rel="stylesheet" href="<?php echo base_url('/assets/datatables/jquery.dataTables.min.css')?>">
+
+
+  <script type="text/javascript" charset="utf8" src="<?php echo base_url('/assets/datatables/jquery.dataTables.min.js')?>"></script>
+
+  <!-- <script src="https://cdn.datatables.net/plug-ins/1.12.1/i18n/es-ES.json"></script> -->
+  <!-- <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.11.5/css/jquery.dataTables.min.css"> -->
+  <!-- <script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.11.4/js/jquery.dataTables.min.js"></script> -->
+ 
 
   <!-- Selec -->
   <!-- Latest compiled and minified CSS -->
@@ -38,8 +48,8 @@
 </head>
 <body class="d-flex flex-column min-vh-100">
 
-<nav class="navbar navbar-expand-lg navbar-dark custom-nav mb-5">
-  <a class="navbar-brand ml-5" href="#">
+<nav class="navbar navbar-expand-lg navbar-dark custom-nav mb-4">
+  <a class="navbar-brand ml-5" href="<?php echo base_url('/inicio')?>">
     <img src="<?php echo base_url('/assets/img/logoBlanco.png')?>" class="img-fluid" style="max-width:130px">
   </a>
   <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
@@ -57,7 +67,7 @@
       <li class="nav-item <?php if(isset($menu)){if($menu=="dashboard"){echo "active";}} ?> mr-3">
         <a class="nav-link" href="<?php echo base_url('dashbord')?>">Gestión<span class="sr-only"></span></a>
       </li>
-      <li class="nav-item dropdown mr-3">
+      <li class="nav-item dropdown mr-5">
         <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
         <i class="fa fa-user-circle"></i>&nbsp;<?= session()->get('nombre') ?>
         </a>
@@ -67,9 +77,6 @@
       </li>
     </ul>
   </div>
-  <a class="navbar-brand ml-auto mr-5" href="#">
-    <img src="<?php echo base_url('/assets/img/logoEmpresa.png')?>" class="img-fluid" style="max-width:80px">
-  </a>
 
 <?php elseif(session()->get('isLoggedIn') && session()->get('tipo') == 1): ?>
   <div class="collapse navbar-collapse" id="navbarSupportedContent">

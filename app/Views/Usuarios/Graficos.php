@@ -41,8 +41,8 @@
                                 <div class="col-12 text-center">
                                     <br>
                                     <h4>Sensor de <?php echo $sensor['nombre'] ?></h4>
-                                    <a id="resetBtn" onclick="" class="btn btn-primary">Reiniciar</a>
-                                    <a id="resetBtn" onclick="" class="btn btn-primary">Pausar</a>
+                                    <!-- <a id="resetBtn" onclick="" class="btn btn-primary">Reiniciar</a> -->
+                                    <!-- <a id="resetBtn" onclick="" class="btn btn-primary">Pausar</a> -->
                                     <a id="resetBtn" onclick="descargarCsv(this)" class="btn btn-primary" value="<?php echo $sensor['idSensor'] ?>" name="<?php echo $sensor['nombre'] ?>">Descargar CSV</a>
                                 </div>
                                 <div class="col-12 mt-2">

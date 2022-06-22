@@ -3,12 +3,12 @@
         <table id="tablaUsuarios" class="table table-striped table-bordered">
             <thead>
                 <tr>
-                    <th>id</th>
+                    <th>Id</th>
                     <th>Nombre</th>
                     <th>Correo</th>
                     <th>Tipo</th>
                     <th>Imagen</th>
-                    <th>Telefono</th>
+                    <th>Teléfono</th>
                     <th>Acciones</th>
                 </tr>
             </thead>
@@ -19,6 +19,9 @@
 <script>
     $(document).ready(function(){
         $('#tablaUsuarios').dataTable({
+            "language": {
+               "url": "<?php echo base_url('/assets/datatables/es-ES.json')?>"
+            },
             "responsive": true,
             "order":[],
             "serverSide":true,

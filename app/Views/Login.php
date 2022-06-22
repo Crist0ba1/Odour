@@ -3,11 +3,11 @@
 
 <head>
     <meta charset="UTF-8">
-    <title>Odour Solutions</title>
+
+    <title>Odour</title>
     
     <link rel="shortcut icon" type="image/x-icon" href="<?php echo base_url('/assets/img/favicon.png')?>" >
 
-    <meta name="description" content="Prueba tecnica para la empresa Puppies & Kittens.">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
     <link rel="stylesheet" href="css/login.css">
@@ -44,9 +44,6 @@
     <!-- Custom fonts for this template-->
     <link href="../vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
     <link href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i" rel="stylesheet">
-
-    <!-- Custom styles for this template-->
-    <link href="./assets/css/sb-admin-2.min.css" rel="stylesheet">
 
 </head>
 
@@ -123,7 +120,7 @@
 
         grecaptcha.ready(function() {
         grecaptcha.execute('6LcI28EfAAAAANzA2FzyZgu9csmxoMPPBYSA9hnw', {action: 'homepage'}).then(function(token) {
-                console.log(token);
+                // console.log(token);
                 document.getElementById("g-token").value = token;
             });
         });
@@ -147,16 +144,6 @@
             }
         }
     </script>
-
-    <!-- Bootstrap core JavaScript-->
-    <script src="../vendor/jquery/jquery.min.js"></script>
-    <script src="../vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
-
-    <!-- Core plugin JavaScript-->
-    <script src="../vendor/jquery-easing/jquery.easing.min.js"></script>
-
-    <!-- Custom scripts for all pages-->
-    <script src="assets/js/sb-admin-2.min.js"></script>
 
 </body>
 

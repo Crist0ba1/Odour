@@ -96,6 +96,8 @@
             
 </footer>
 
+    
+
 	<script type="text/javascript">
 		<?php if(session()->has('verModal')):?>
 			/*<?php if(session()->get('verModal')== "1" && !session()->get('isLoggedIn')):?>

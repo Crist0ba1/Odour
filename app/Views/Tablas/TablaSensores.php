@@ -3,8 +3,8 @@
         <table id="tablaSensores" class="table table-striped table-bordered ">
             <thead>
                 <tr>
-                    <th>id</th>
-                    <th>Descripcion</th>
+                    <th>Id</th>
+                    <th>Descripción</th>
                     <th>Tipo</th>
                     <th>Acciones</th>
                     
@@ -17,6 +17,9 @@
 <script>
     $(document).ready(function(){
         $('#tablaSensores').dataTable({
+            "language": {
+               "url": "<?php echo base_url('/assets/datatables/es-ES.json')?>"
+            },
             "responsive": true,
             "order":[],
             "serverSide":true,
