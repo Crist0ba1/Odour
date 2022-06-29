@@ -25,6 +25,24 @@
             "responsive": true,
             "order":[],
             "serverSide":true,
+            "columns": [
+                null,
+                null,
+                null,
+                {render : function(data) {
+                    if (data == 0){
+                        return 'Administrador';
+                    } else if (data == 1) {
+                        return 'Lector';
+                    }
+                    
+                } },
+                {render : function(data) {
+                    return '<img src="<?php echo base_url('images/empresa/')?>/'+data+'" max-width="70" height="20">';
+                } },
+                null,
+                null
+            ],
             "ajax":{
                 url:"<?php echo base_url('/Usuario_fetch_all')?>",
                 type:"POST",            
